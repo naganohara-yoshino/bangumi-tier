@@ -1,7 +1,7 @@
 <script>
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
-  import ItemCard from "./ItemCard.svelte";
+  import ItemCard from "$lib/components/ItemCard.svelte";
 
   let { items = $bindable() } = $props();
   const flipDurationMs = 300;
