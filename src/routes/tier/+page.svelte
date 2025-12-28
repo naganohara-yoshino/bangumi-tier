@@ -5,9 +5,12 @@
 
   let { data }: PageProps = $props();
 
-  let tierItems1 = data.items || [];
+  let tierItems1 = $state([]);
 
-  let tierItems2 = [];
+  let tierItems2 = $state([]);
+
+  // svelte-ignore state_referenced_locally
+  let tierItems3 = $state(data.items);
 </script>
 
 <div
@@ -16,10 +19,11 @@
   <div
     class="flex flex-col p-8 justify-center items-center w-full lg:h-full lg:w-2/5 bg-white"
   >
-    <ItemList items={[]} />
+    <ItemList bind:items={tierItems3} />
   </div>
   <div class="flex flex-1 flex-col justify-center items-center p-8">
-    <TierBar items={tierItems1} />
-    <TierBar items={tierItems2} />
+    <p>{tierItems3.length} {tierItems1.length} {tierItems2.length}</p>
+    <TierBar bind:items={tierItems1} />
+    <TierBar bind:items={tierItems2} />
   </div>
 </div>

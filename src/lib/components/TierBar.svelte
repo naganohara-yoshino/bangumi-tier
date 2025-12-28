@@ -1,7 +1,7 @@
 <script>
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
-  let { items } = $props();
+  let { items = $bindable() } = $props();
   const flipDurationMs = 300;
   function handleDndConsider(e) {
     items = e.detail.items;
