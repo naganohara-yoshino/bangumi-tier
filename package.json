@@ -30,6 +30,7 @@
 		"@vitest/browser-playwright": "^4.0.15",
 		"bits-ui": "^2.14.4",
 		"clsx": "^2.1.1",
+		"daisyui": "^5.5.14",
 		"openapi-typescript": "^7.10.1",
 		"playwright": "^1.57.0",
 		"svelte": "^5.45.6",
