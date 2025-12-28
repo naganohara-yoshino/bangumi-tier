@@ -16,8 +16,8 @@
 <div
   class="flex h-70 bg-white w-full rounded-lg p-2 overflow-x-auto"
   use:dndzone={{ items, flipDurationMs }}
-  on:consider={handleDndConsider}
-  on:finalize={handleDndFinalize}
+  onconsider={handleDndConsider}
+  onfinalize={handleDndFinalize}
 >
   {#each items as item (item.id)}
     <div animate:flip={{ duration: flipDurationMs }}>
