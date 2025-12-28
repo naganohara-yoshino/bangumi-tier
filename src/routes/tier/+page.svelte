@@ -1,17 +1,13 @@
-<script>
+<script lang="ts">
   import ItemList from "$lib/components/ItemList.svelte";
   import TierBar from "$lib/components/TierBar.svelte";
+  import type { PageProps } from "./$types";
 
-  let tierItems1 = [
-    { id: 1, name: "Tier 1" },
-    { id: 2, name: "Tier 2" },
-    { id: 3, name: "Tier 3" },
-  ];
-  let tierItems2 = [
-    { id: 11, name: "Tier 11" },
-    { id: 22, name: "Tier 22" },
-    { id: 33, name: "Tier 33" },
-  ];
+  let { data }: PageProps = $props();
+
+  let tierItems1 = data.items || [];
+
+  let tierItems2 = [];
 </script>
 
 <div
@@ -20,15 +16,7 @@
   <div
     class="flex flex-col p-8 justify-center items-center w-full lg:h-full lg:w-2/5 bg-white"
   >
-    <ItemList
-      items={[
-        { id: "a", name: "Item A" },
-        { id: "b", name: "Item B" },
-        { id: "c", name: "Item C" },
-        { id: "d", name: "Item D" },
-        { id: "e", name: "Item E" },
-      ]}
-    />
+    <ItemList items={[]} />
   </div>
   <div class="flex flex-1 flex-col justify-center items-center p-8">
     <TierBar items={tierItems1} />

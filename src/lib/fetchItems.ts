@@ -3,6 +3,7 @@ import type { paths as public_paths } from "$lib/schemas/bgm-public-api";
 import type { paths as index_pathes } from "$lib/schemas/bgm-index-api";
 
 export interface Item {
+  id: string;
   category: string;
   name: string;
   image: string | undefined;
@@ -16,7 +17,7 @@ const indClient = createClient<index_pathes>({
   baseUrl: "https://bgmapi.sakuga.org/",
 });
 
-export async function fetchIndex(index_id: number): Promise<Item[]> {
+export async function fetchIndexItems(index_id: number): Promise<Item[]> {
   const { data } = await indClient.GET("/api/index/{index_id}", {
     params: {
       path: {
@@ -26,7 +27,7 @@ export async function fetchIndex(index_id: number): Promise<Item[]> {
   });
 
   if (!data) {
-    throw new Error("Index not found");
+    return [];
   }
 
   const index = data.index;
@@ -41,10 +42,14 @@ export async function fetchIndex(index_id: number): Promise<Item[]> {
   for (const person_id of index.person_ids) {
     promises.push(fetchPerson(person_id));
   }
-  return Promise.all(promises);
+  return (await Promise.all(promises)).filter(
+    (item): item is Item => item !== undefined,
+  );
 }
 
-export async function fetchSubject(subject_id: number): Promise<Item> {
+export async function fetchSubject(
+  subject_id: number,
+): Promise<Item | undefined> {
   const { data } = await pubClient.GET("/v0/subjects/{subject_id}", {
     params: {
       path: { subject_id },
@@ -52,17 +57,20 @@ export async function fetchSubject(subject_id: number): Promise<Item> {
   });
 
   if (!data) {
-    throw new Error("Subject not found");
+    return undefined;
   }
 
   return {
+    id: `subject_${subject_id}`,
     category: "subject",
     name: data.name ?? data.name_cn ?? "Unknown",
     image: data.images?.medium,
   };
 }
 
-export async function fetchCharacter(character_id: number): Promise<Item> {
+export async function fetchCharacter(
+  character_id: number,
+): Promise<Item | undefined> {
   const { data } = await pubClient.GET("/v0/characters/{character_id}", {
     params: {
       path: { character_id },
@@ -70,17 +78,20 @@ export async function fetchCharacter(character_id: number): Promise<Item> {
   });
 
   if (!data) {
-    throw new Error("Character not found");
+    return undefined;
   }
 
   return {
+    id: `character_${character_id}`,
     category: "character",
     name: data.name ?? "Unknown",
     image: data.images?.medium,
   };
 }
 
-export async function fetchPerson(person_id: number): Promise<Item> {
+export async function fetchPerson(
+  person_id: number,
+): Promise<Item | undefined> {
   const { data } = await pubClient.GET("/v0/persons/{person_id}", {
     params: {
       path: { person_id },
@@ -88,10 +99,11 @@ export async function fetchPerson(person_id: number): Promise<Item> {
   });
 
   if (!data) {
-    throw new Error("Person not found");
+    return undefined;
   }
 
   return {
+    id: `person_${person_id}`,
     category: "person",
     name: data.name ?? "Unknown",
     image: data.images?.medium,
