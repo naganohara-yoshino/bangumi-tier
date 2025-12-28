@@ -1,6 +1,7 @@
 <script lang="ts">
   import ItemList from "$lib/components/ItemList.svelte";
   import TierBar from "$lib/components/TierBar.svelte";
+  import ItemCard from "$lib/components/ItemCard.svelte";
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props();

@@ -1,6 +1,8 @@
 <script>
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
+  import ItemCard from "./ItemCard.svelte";
+
   let { items = $bindable() } = $props();
   const flipDurationMs = 300;
   function handleDndConsider(e) {
@@ -12,17 +14,13 @@
 </script>
 
 <div
-  class="min-w-10 min-h-16 flex flex-col bg-gray-200 rounded-lg p-2"
   use:dndzone={{ items, flipDurationMs }}
   on:consider={handleDndConsider}
   on:finalize={handleDndFinalize}
 >
   {#each items as item (item.id)}
-    <div
-      class="flex min-w-10 h-10 p-3 border-2 border-blue-500 m-1 text-center items-center justify-center bg-white rounded shadow cursor-move select-none"
-      animate:flip={{ duration: flipDurationMs }}
-    >
-      {item.name}
+    <div animate:flip={{ duration: flipDurationMs }}>
+      <ItemCard {item} />
     </div>
   {/each}
 </div>

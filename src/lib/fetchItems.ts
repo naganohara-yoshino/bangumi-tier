@@ -1,13 +1,7 @@
 import createClient from "openapi-fetch";
 import type { paths as public_paths } from "$lib/schemas/bgm-public-api";
 import type { paths as index_pathes } from "$lib/schemas/bgm-index-api";
-
-export interface Item {
-  id: string;
-  category: string;
-  name: string;
-  image: string | undefined;
-}
+import type { Item } from "$lib/schemas/item";
 
 const pubClient = createClient<public_paths>({
   baseUrl: "https://api.bgm.tv/",
