@@ -1,6 +1,7 @@
 <script lang="ts">
   import ItemList from "$lib/components/ItemList.svelte";
   import TierBar from "$lib/components/TierBar.svelte";
+  import UtilBar from "$lib/components/UtilBar.svelte"; // Renamed import
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props();
@@ -13,49 +14,61 @@
 
   // svelte-ignore state_referenced_locally
   let tierItems = $state(data.items);
+
+  // Sidebar State
+  let isSidebarOpen = $state(true);
+  function toggleSidebar() {
+    isSidebarOpen = !isSidebarOpen;
+  }
 </script>
 
 <div
   class="relative flex h-screen w-full flex-col overflow-hidden bg-background font-mono text-foreground lg:flex-row"
 >
-  <!-- Dot Grid Texture -->
+  <!-- Background Grid -->
   <div
-    class="pointer-events-none absolute inset-0 z-0 opacity-15"
-    style="background-image: radial-gradient(currentColor 2px, transparent 2px); background-size: 24px 24px;"
+    class="pointer-events-none absolute inset-0 z-0 opacity-10"
+    style="background-image: linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px); background-size: 40px 40px;"
   ></div>
 
-  <!-- Left Panel: Tiers -->
+  <!-- Left Panel (Tiers) -->
+  <!-- 
+    Logic: When sidebar is closed (!isSidebarOpen), this panel should grow to take full space.
+    The 'flex-1' class already handles this automatically as long as the other panel disappears.
+  -->
   <main
     class="scrollbar-brutal relative z-10 flex flex-1 flex-col overflow-y-auto p-4 lg:p-10"
   >
-    <header class="mb-10 flex flex-wrap items-center gap-4">
-      <div class="flex items-center">
-        <!-- 
-          FF- Block 
-          - bg-primary (Black)
-          - text-primary-foreground (White)
-          - shadow now uses var(--color-accent) (Lime/Magenta) for high contrast
-        -->
+    <header
+      class="mb-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
+    >
+      <!-- Title -->
+      <div class="flex flex-wrap items-center gap-4">
+        <div class="flex items-center">
+          <span
+            class="flex h-16 items-center border-4 border-border bg-primary px-4 text-5xl font-black tracking-tighter text-primary-foreground shadow-[6px_6px_0px_0px_var(--color-accent)] lg:h-20 lg:text-7xl"
+          >
+            FF-
+          </span>
+          <span
+            class="ml-2 text-5xl font-black uppercase tracking-tighter text-transparent lg:text-7xl"
+            style="-webkit-text-stroke: 3px var(--color-foreground); text-shadow: 6px 6px 0px var(--color-accent);"
+          >
+            Bangumi
+          </span>
+        </div>
         <span
-          class="flex h-16 items-center border-4 border-border bg-primary px-4 text-5xl font-black tracking-tighter text-primary-foreground shadow-[6px_6px_0px_0px_var(--color-accent)] lg:h-20 lg:text-7xl"
+          class="mt-2 rotate-2 border-2 border-border bg-accent px-2 py-1 text-xs font-bold text-accent-foreground shadow-[2px_2px_0px_0px_var(--color-border)] lg:mt-0"
         >
-          FF
-        </span>
-
-        <!-- Bangumi Text -->
-        <span
-          class="ml-2 text-5xl font-black uppercase tracking-tighter text-transparent lg:text-7xl"
-          style="-webkit-text-stroke: 3px var(--color-foreground); text-shadow: 6px 6px 0px var(--color-accent);"
-        >
-          Bangumi Tier
+          VER 2.0
         </span>
       </div>
 
-      <span
-        class="mt-2 rotate-2 border-2 border-border bg-accent px-2 py-1 text-xs font-bold text-accent-foreground shadow-[2px_2px_0px_0px_var(--color-border)] lg:mt-0"
-      >
-        VER 2.0
-      </span>
+      <!-- UtilBar -->
+      <div class="shrink-0">
+        <!-- Pass the toggle handler and state -->
+        <UtilBar onToggleSidebar={toggleSidebar} {isSidebarOpen} />
+      </div>
     </header>
 
     <div class="flex flex-col gap-4 pb-10">
@@ -67,10 +80,26 @@
     </div>
   </main>
 
-  <!-- Right Panel -->
+  <!-- 
+    Right Panel (ItemList) 
+    Transition Logic:
+    1. We keep the DOM element but collapse width/height to 0.
+    2. overflow-hidden is crucial to hide content during collapse.
+    3. transition-all duration-300 makes the snap smooth.
+  -->
   <aside
-    class="relative z-20 flex h-[45%] w-full flex-col border-t-4 border-border bg-background p-4 lg:h-full lg:w-[420px] lg:border-l-4 lg:border-t-0 lg:p-6"
+    class="relative z-20 flex flex-col border-border bg-background transition-all duration-300 ease-in-out overflow-hidden
+    {isSidebarOpen
+      ? 'border-t-4 p-4 lg:border-l-4 lg:border-t-0 lg:p-6'
+      : 'border-0 p-0'}
+    {isSidebarOpen ? 'h-[45%] lg:h-full lg:w-[420px]' : 'h-0 lg:h-full lg:w-0'}"
   >
-    <ItemList bind:items={tierItems} title="Collection" />
+    <!-- 
+      We wrap the content in a fixed width div (on desktop) so the content 
+      doesn't squish while the panel width shrinks. 
+    -->
+    <div class="h-full w-full min-w-[300px]">
+      <ItemList bind:items={tierItems} title="Collection" />
+    </div>
   </aside>
 </div>
