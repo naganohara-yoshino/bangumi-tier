@@ -3,7 +3,7 @@
     import coverImage from "$lib/assets/cover.jpg";
     import coverImageNight from "$lib/assets/cover-night.jpg";
 
-    // Import independent control buttons
+    // Independent controls
     import GitHubButton from "$lib/components/GitHubButton.svelte";
     import LanguageSwitch from "$lib/components/control/LanguageSwitch.svelte";
     import ThemeToggle from "$lib/components/control/ThemeToggle.svelte";
@@ -12,30 +12,48 @@
 <div
     class="relative grid min-h-svh bg-background font-mono text-foreground lg:grid-cols-2"
 >
-    <!-- Background Texture (Dot Grid) -->
+    <!-- Background Texture -->
     <div
-        class="pointer-events-none absolute inset-0 z-0 opacity-15"
-        style="background-image: radial-gradient(currentColor 2px, transparent 2px); background-size: 24px 24px;"
+        class="pointer-events-none absolute inset-0 z-0 opacity-10"
+        style="background-image: linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px); background-size: 40px 40px;"
     ></div>
 
     <!-- Left Panel: Content -->
-    <div class="relative z-10 flex flex-col gap-4 p-6 md:p-10">
-        <!-- Header Row: Home UtilBar -->
-        <div class="flex items-center justify-between md:justify-start">
-            <!-- Branding / Logo (Optional small version) -->
-            <div class="flex items-center gap-2 md:hidden">
-                <span class="bg-primary px-2 font-black text-primary-foreground"
-                    >FF-</span
+    <div class="relative z-10 flex flex-col gap-8 p-6 md:p-10">
+        <!-- 
+           Header Row 
+           - Mobile: flex-col, gap-4, items-start (Title top-left, Buttons below-left)
+           - Desktop (lg): flex-row, justify-between (Title Left, Buttons Right)
+        -->
+        <header
+            class="flex w-full flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between"
+        >
+            <!-- Title Section -->
+            <div
+                class="flex items-center scale-75 origin-top-left lg:scale-100"
+            >
+                <!-- Box Logo -->
+                <span
+                    class="flex h-12 items-center border-4 border-border bg-primary px-3 text-3xl font-black tracking-tighter text-primary-foreground shadow-[4px_4px_0px_0px_var(--color-accent)]"
                 >
+                    FF
+                </span>
+                <!-- Text Logo -->
+                <span
+                    class="ml-2 text-3xl font-black uppercase tracking-tighter text-transparent"
+                    style="-webkit-text-stroke: 2px var(--color-foreground); text-shadow: 4px 4px 0px var(--color-accent);"
+                >
+                    Bangumi Tier
+                </span>
             </div>
 
-            <!-- The requested UtilBar (No Sidebar Toggle) -->
-            <div class="ml-auto flex items-center gap-3">
+            <!-- Button Group -->
+            <div class="flex items-center gap-3">
                 <GitHubButton />
                 <LanguageSwitch />
                 <ThemeToggle />
             </div>
-        </div>
+        </header>
 
         <!-- Main Content Area -->
         <div class="flex flex-1 items-center justify-center">
@@ -45,20 +63,14 @@
         </div>
     </div>
 
-    <!-- Right Panel: Image -->
-    <!-- Added border-l-4 border-border to separate from content -->
+    <!-- 
+       Right Panel: Image 
+       - Removed overlay filters.
+       - Clean image presentation.
+    -->
     <div
         class="bg-muted relative hidden border-l-4 border-border overflow-hidden lg:block"
     >
-        <!-- 
-            Overlay Pattern for Image 
-            (Optional: Adds a "Scanner" line effect over the anime image) 
-        -->
-        <div
-            class="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))]"
-            style="background-size: 100% 2px, 3px 100%;"
-        ></div>
-
         <!-- Day Image -->
         <enhanced:img
             src={coverImage}

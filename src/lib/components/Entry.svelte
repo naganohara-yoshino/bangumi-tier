@@ -107,7 +107,7 @@
       </div>
     </Field.Field>
 
-    <div class="my-2"></div>
+    <div class="my-4 h-1 w-full border-b-2 border-border"></div>
 
     <!-- User Collection Input -->
     <Field.Field>
@@ -139,7 +139,7 @@
       <Field.Description
         class="mt-2 text-xs font-bold uppercase text-muted-foreground"
       >
-        Sync your personal BGM collection
+        Your bgm username
       </Field.Description>
     </Field.Field>
 
