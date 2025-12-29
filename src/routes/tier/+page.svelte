@@ -6,9 +6,11 @@
 
   let { data }: PageProps = $props();
 
-  let tierItems1 = $state([]);
-
-  let tierItems2 = $state([]);
+  let tierLevel1 = $state([]);
+  let tierLevel2 = $state([]);
+  let tierLevel3 = $state([]);
+  let tierLevel4 = $state([]);
+  let tierLevel5 = $state([]);
 
   // svelte-ignore state_referenced_locally
   let tierItems3 = $state(data.items);
@@ -23,8 +25,10 @@
     <ItemList bind:items={tierItems3} />
   </div>
   <div class="flex flex-1 flex-col justify-center items-center p-8">
-    <p>{tierItems3.length} {tierItems1.length} {tierItems2.length}</p>
-    <TierBar bind:items={tierItems1} />
-    <TierBar bind:items={tierItems2} />
+    <TierBar title="S" bind:items={tierLevel1} />
+    <TierBar title="A" bind:items={tierLevel2} />
+    <TierBar title="B" bind:items={tierLevel3} />
+    <TierBar title="C" bind:items={tierLevel4} />
+    <TierBar title="D" bind:items={tierLevel5} />
   </div>
 </div>
