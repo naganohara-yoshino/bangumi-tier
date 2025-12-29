@@ -3,6 +3,7 @@
   import * as Field from "$lib/components/ui/field/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { cn } from "$lib/utils.js";
+  import { m } from "$lib/paraglide/messages.js";
   import type { HTMLAttributes } from "svelte/elements";
 
   let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> =
@@ -46,10 +47,10 @@
     <!-- Header Section -->
     <div class="flex flex-col items-center gap-2 text-center">
       <h1 class="font-mono text-4xl font-black uppercase tracking-tighter">
-        Welcome
+        {m.welcome()}
       </h1>
       <p class="text-sm font-bold uppercase text-muted-foreground">
-        Make custom tier of ...
+        {m.app_description()}
       </p>
     </div>
 
