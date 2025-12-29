@@ -92,38 +92,37 @@
   </div>
 </div>
 
+<!-- Inside ItemList.svelte -->
+
+<div
+  class="custom-scrollbar relative flex-1 min-h-0 w-full overflow-y-auto bg-neutral-100"
+  style={hazardPattern}
+>
+  <!-- Content... -->
+</div>
+
 <style>
   /* 
-    1. The Scrollbar Container 
-    - width: 20px -> We make it slightly wider to accommodate the border + thumb.
-    - border-left: This puts the hard line on the container itself, 
-      so the moving thumb inside can NEVER paint over it.
+    Neo-Brutalist "Floating Brick" Scrollbar 
+    Context: Main Page (Gray Background)
   */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 20px;
-    background-color: #ffffff;
-    border-left: 4px solid #000000;
+    width: 20px; /* Wide and chunky */
   }
 
-  /* 
-    2. The Track (Background) 
-    - Just pure white.
-  */
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: transparent; /* Lets the grid pattern show through */
   }
 
-  /* 
-    3. The Thumb (Dragger) 
-    - Solid black.
-    - border-top/bottom: Creates the white gaps.
-    - background-clip: padding-box; Ensures the black color stops at the border.
-  */
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #000000;
-    border-top: 4px solid #ffffff;
-    border-bottom: 4px solid #ffffff;
-    background-clip: padding-box;
+
+    /* This creates the transparent gap around the thumb */
+    border: 5px solid transparent;
+    background-clip: content-box;
+
+    /* Brutalist: Sharp corners */
+    border-radius: 0px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {

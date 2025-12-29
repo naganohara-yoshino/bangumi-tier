@@ -50,13 +50,13 @@
       <h1
         class="text-5xl font-black uppercase tracking-tighter drop-shadow-[4px_4px_0_#fff] lg:text-7xl"
       >
-        Rank<span class="text-rose-500">.</span>It
+        <span class="text-rose-500">FF-</span>Bangumi Tier
       </h1>
-      <span
+      <!-- <span
         class="hidden rounded-full border-2 border-black bg-black px-3 py-1 text-xs font-bold text-white lg:inline-block"
       >
         V 1.0
-      </span>
+      </span> -->
     </header>
 
     <!-- Tier Bars Stack -->
@@ -91,21 +91,31 @@
   </aside>
 </div>
 
-<!-- Reusing the scrollbar style for the main page tier scrolling -->
 <style>
+  /* 
+    Neo-Brutalist "Floating Brick" Scrollbar 
+    Context: Main Page (Gray Background)
+  */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 14px;
+    width: 20px; /* Wide and chunky */
   }
+
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent; /* Transparent on the main page to see grid */
+    background: transparent; /* Lets the grid pattern show through */
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #000000;
-    border: 3px solid #f2f2f2; /* Matches page bg color */
-    border-radius: 9999px; /* Pill shape for main scrollbar looks slightly better, or remove for blocky */
+
+    /* This creates the transparent gap around the thumb */
+    border: 5px solid transparent;
     background-clip: content-box;
+
+    /* Brutalist: Sharp corners */
+    border-radius: 0px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: #333;
+    background-color: #333333;
   }
 </style>
