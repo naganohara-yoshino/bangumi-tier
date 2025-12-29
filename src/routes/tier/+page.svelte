@@ -15,33 +15,48 @@
   let tierItems = $state(data.items);
 </script>
 
-<!-- 
-  Main Page
-  - bg-background: Uses theme variable (Grey/Charcoal).
-  - text-foreground: Theme text color.
--->
+<!-- Main Page Wrapper: bg-background (Bone/Void) -->
 <div
   class="relative flex h-screen w-full flex-col overflow-hidden bg-background font-mono text-foreground lg:flex-row"
 >
-  <!-- Grid Pattern: Using currentcolor to adapt to dark mode automatically -->
+  <!-- Texture: Dot Grid -->
   <div
-    class="pointer-events-none absolute inset-0 z-0 opacity-10"
-    style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 40px 40px;"
+    class="pointer-events-none absolute inset-0 z-0 opacity-15"
+    style="background-image: radial-gradient(currentColor 2px, transparent 2px); background-size: 24px 24px;"
   ></div>
 
   <!-- Left Panel: Tiers -->
   <main
-    class="scrollbar-brutal relative z-10 flex flex-1 flex-col overflow-y-auto p-4 lg:p-8"
+    class="scrollbar-brutal relative z-10 flex flex-1 flex-col overflow-y-auto p-4 lg:p-10"
   >
-    <header class="mb-8 flex items-baseline gap-4">
-      <h1
-        class="text-5xl font-black uppercase tracking-tighter drop-shadow-[4px_4px_0_var(--color-border)] lg:text-7xl"
+    <!-- Redesigned Radical Title -->
+    <header class="mb-10 flex flex-wrap items-center gap-4">
+      <div class="flex items-center">
+        <!-- 'FF-' Block: Solid Primary Box -->
+        <span
+          class="flex h-16 items-center border-4 border-border bg-primary px-4 text-5xl font-black tracking-tighter text-primary-foreground shadow-[6px_6px_0px_0px_var(--color-border)] lg:h-20 lg:text-7xl"
+        >
+          FF-
+        </span>
+        <!-- 'Bangumi' Text: Outlined & Shadowed -->
+        <span
+          class="ml-2 text-5xl font-black uppercase tracking-tighter text-transparent lg:text-7xl"
+          style="-webkit-text-stroke: 3px var(--color-foreground); text-shadow: 6px 6px 0px var(--color-accent);"
+        >
+          Bangumi
+        </span>
+      </div>
+
+      <!-- Version Tag -->
+      <span
+        class="mt-2 rotate-2 border-2 border-border bg-accent px-2 py-1 text-xs font-bold text-accent-foreground shadow-[2px_2px_0px_0px_var(--color-border)] lg:mt-0"
       >
-        <span style="color: var(--chart-1);">FF-</span>Bangumi Tier
-      </h1>
+        VER 2.0
+      </span>
     </header>
 
-    <div class="flex flex-col gap-3 pb-10">
+    <!-- Tier Stack -->
+    <div class="flex flex-col gap-4 pb-10">
       <TierBar title="S" color="var(--chart-1)" bind:items={tierLevel1} />
       <TierBar title="A" color="var(--chart-2)" bind:items={tierLevel2} />
       <TierBar title="B" color="var(--chart-3)" bind:items={tierLevel3} />
@@ -50,9 +65,14 @@
     </div>
   </main>
 
-  <!-- Right Panel: Inventory -->
+  <!-- 
+    Right Panel: Sidebar Wrapper 
+    - Uses bg-background to blend with page.
+    - border-border separates it.
+    - Padding creates space for the ItemList (Card) to float inside.
+  -->
   <aside
-    class="relative z-20 flex h-[40%] w-full flex-col border-t-4 border-border bg-card p-4 shadow-[-10px_0_20px_rgba(0,0,0,0.05)] lg:h-full lg:w-[400px] lg:border-l-4 lg:border-t-0 lg:p-6"
+    class="relative z-20 flex h-[45%] w-full flex-col border-t-4 border-border bg-background p-4 lg:h-full lg:w-[420px] lg:border-l-4 lg:border-t-0 lg:p-6"
   >
     <ItemList bind:items={tierItems} title="Collection" />
   </aside>

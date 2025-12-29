@@ -7,29 +7,31 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0rem; /* Brutalist = No Radius */
+  --radius: 0px; /* Strict Brutalism */
 
-  /* Day Mode: Concrete & Ink */
-  --background: oklch(0.92 0 0); /* Light Grey #ebebeb */
-  --foreground: oklch(0 0 0); /* Pure Black */
+  /* DAY MODE: Raw Canvas & Heavy Ink */
+  --background: oklch(0.94 0.02 96); /* #EFEDE6 (Bone White) */
+  --foreground: oklch(0.15 0 0); /* #1F1F1F (Soft Black) */
 
-  --card: oklch(1 0 0); /* Pure White */
+  --card: oklch(1 0 0); /* #FFFFFF (Pure White) */
   --card-foreground: oklch(0 0 0);
 
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0 0 0);
 
-  --primary: oklch(0 0 0); /* Black Primary */
-  --primary-foreground: oklch(1 0 0);
+  /* Primary is used for headers/buttons */
+  --primary: oklch(0.1 0 0); /* #111111 (Ink Black) */
+  --primary-foreground: oklch(0.98 0 0); /* #FAFAFA */
 
-  --secondary: oklch(0.85 0 0); /* Darker Grey */
-  --secondary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.88 0 0); /* Light Grey blocks */
+  --secondary-foreground: oklch(0.1 0 0);
 
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.4 0 0);
+  --muted: oklch(0.96 0.01 96);
+  --muted-foreground: oklch(0.5 0 0);
 
-  --accent: oklch(0.94 0.15 94); /* Neon Yellow Highlight */
-  --accent-foreground: oklch(0 0 0);
+  /* The "Radical" Accent: Acid Lime */
+  --accent: oklch(0.88 0.25 145); /* #BFFF00 */
+  --accent-foreground: oklch(0.1 0 0);
 
   --destructive: oklch(0.6 0.25 25);
 
@@ -37,36 +39,37 @@
   --input: oklch(0 0 0);
   --ring: oklch(0 0 0);
 
-  /* Tier Colors (High Saturation) */
-  --chart-1: oklch(0.65 0.25 15); /* S: Rose */
-  --chart-2: oklch(0.75 0.2 50); /* A: Amber */
-  --chart-3: oklch(0.85 0.25 130); /* B: Lime */
-  --chart-4: oklch(0.75 0.2 230); /* C: Cyan */
-  --chart-5: oklch(0.7 0.2 280); /* D: Violet */
+  /* VIVID TIERS */
+  --chart-1: oklch(0.6 0.25 20); /* S: Hot Crimson */
+  --chart-2: oklch(0.7 0.22 45); /* A: Safety Orange */
+  --chart-3: oklch(0.85 0.23 105); /* B: Toxic Yellow */
+  --chart-4: oklch(0.7 0.18 200); /* C: Azure Blue */
+  --chart-5: oklch(0.65 0.25 300); /* D: Electric Purple */
 }
 
 .dark {
-  /* Night Mode: Cyberpunk blueprint */
-  --background: oklch(0.15 0 0); /* Deep Charcoal */
-  --foreground: oklch(0.95 0 0); /* White Text */
+  /* NIGHT MODE: Deep Void & Cyber Neon */
+  --background: oklch(0.12 0.02 260); /* #141419 (Deep Blue-Black) */
+  --foreground: oklch(0.95 0 0); /* #F2F2F2 */
 
-  --card: oklch(0 0 0); /* Black Cards */
+  --card: oklch(0.18 0.02 260); /* #24242C (Lighter Void) */
   --card-foreground: oklch(0.95 0 0);
 
-  --popover: oklch(0 0 0);
+  --popover: oklch(0.1 0 0);
   --popover-foreground: oklch(0.95 0 0);
 
   --primary: oklch(0.95 0 0); /* White Primary */
-  --primary-foreground: oklch(0 0 0);
+  --primary-foreground: oklch(0.1 0 0);
 
   --secondary: oklch(0.25 0 0);
   --secondary-foreground: oklch(0.95 0 0);
 
   --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.7 0 0);
+  --muted-foreground: oklch(0.6 0 0);
 
-  --accent: oklch(0.85 0.2 94); /* Yellow remains active */
-  --accent-foreground: oklch(0 0 0);
+  /* Accent: Cyber Magenta */
+  --accent: oklch(0.65 0.3 320); /* #E600E6 */
+  --accent-foreground: oklch(0.95 0 0);
 
   --destructive: oklch(0.6 0.25 25);
 
@@ -74,12 +77,12 @@
   --input: oklch(0.95 0 0);
   --ring: oklch(0.95 0 0);
 
-  /* Adjust charts for dark mode visibility if needed */
-  --chart-1: oklch(0.65 0.25 15);
-  --chart-2: oklch(0.75 0.2 50);
-  --chart-3: oklch(0.85 0.25 130);
-  --chart-4: oklch(0.75 0.2 230);
-  --chart-5: oklch(0.7 0.2 280);
+  /* GLOWING TIERS */
+  --chart-1: oklch(0.65 0.25 20);
+  --chart-2: oklch(0.75 0.22 45);
+  --chart-3: oklch(0.85 0.23 105);
+  --chart-4: oklch(0.75 0.18 200);
+  --chart-5: oklch(0.7 0.25 300);
 }
 
 @theme inline {
@@ -112,29 +115,23 @@
 }
 
 @layer utilities {
-  /* Unified Neo-Brutalist Scrollbar */
   .scrollbar-brutal::-webkit-scrollbar {
     width: 20px;
   }
-
   .scrollbar-brutal::-webkit-scrollbar-track {
     background: transparent;
   }
-
-  /* Optional: Add a left border only when inside specific containers */
   .scrollbar-brutal-bordered::-webkit-scrollbar {
     background: var(--card);
     border-left: 4px solid var(--border);
   }
-
   .scrollbar-brutal::-webkit-scrollbar-thumb {
-    background-color: var(--primary); /* Black (Light) / White (Dark) */
-    border: 5px solid transparent; /* Creates the floating gap */
+    background-color: var(--primary);
+    border: 5px solid transparent;
     background-clip: content-box;
     border-radius: 0px;
   }
-
   .scrollbar-brutal::-webkit-scrollbar-thumb:hover {
-    background-color: var(--secondary-foreground);
+    background-color: var(--chart-2); /* Hovering turns thumb Orange */
   }
 }
