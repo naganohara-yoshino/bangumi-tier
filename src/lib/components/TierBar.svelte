@@ -18,27 +18,23 @@
   function handleDndFinalize(e) {
     items = e.detail.items;
   }
+
+  // Blueprint Dot Pattern
+  const blueprintPattern = `background-image: radial-gradient(#000 1px, transparent 1px); background-size: 16px 16px;`;
 </script>
 
 <!-- 
   Neo-Brutalist Container 
-  - border-4 border-black: Thick outlines.
-  - shadow-[6px_6px_0px_0px_#000]: Hard black shadow by default.
-  - hover:shadow-[...var(--tier-color)]: Switches shadow color on hover.
-  - transition-shadow duration-200: Smooths the color swap slightly (remove if you want it instant).
-  - style="--tier-color: {color}": Passes the color prop to CSS for the hover state.
 -->
 <div
-  class="group mb-2.5 flex w-full border-4 border-black bg-white shadow-[6px_6px_0px_0px_#000] hover:shadow-[6px_6px_0px_0px_var(--tier-color)] transition-shadow duration-200"
+  class="group mb-2.5 flex w-full border-4 border-black bg-white shadow-[5px_5px_0px_0px_#000] transition-shadow duration-200 hover:shadow-[5px_5px_0px_0px_var(--tier-color)]"
   style="--tier-color: {color}"
 >
   <!-- 
     Left: Title Area 
-    - Takes the 'color' prop for background.
-    - Thick right border acts as a divider.
   -->
   <div
-    class="flex w-24 shrink-0 flex-col items-center justify-center border-r-4 border-black py-2 px-4 sm:w-32"
+    class="flex w-24 shrink-0 flex-col items-center justify-center border-r-4 border-black px-4 py-2 sm:w-32"
     style="background-color: {color};"
   >
     <h2
@@ -49,29 +45,20 @@
   </div>
 
   <!-- 
-    Right: Item Area (Drop Zone)
-    - Gritty off-white background.
-    - Pattern overlay for texture.
+    Right: Visual Wrapper 
+    - This holds the background and empty state.
+    - It is NOT the dndzone itself.
+    - flex-1: Takes up remaining width.
+    - min-h-32: Ensures there is always height even if empty.
   -->
-  <section
-    class="relative flex min-h-32 flex-1 flex-wrap content-start items-start gap-2 bg-neutral-100 p-2"
-    use:dndzone={{ items, flipDurationMs }}
-    onconsider={handleDndConsider}
-    onfinalize={handleDndFinalize}
-  >
-    <!-- Blueprint Dot Pattern -->
-    <!-- <div
+  <div class="relative min-h-32 flex-1 bg-neutral-100">
+    <!-- 1. Background Pattern (Visual Layer) -->
+    <div
       class="pointer-events-none absolute inset-0 opacity-10"
-      style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 16px 16px;"
-    ></div> -->
+      style={blueprintPattern}
+    ></div>
 
-    {#each items as item (item.id)}
-      <div animate:flip={{ duration: flipDurationMs }} class="relative z-10">
-        <ItemCard {item} />
-      </div>
-    {/each}
-
-    <!-- Empty State Placeholder -->
+    <!-- 2. Empty State Placeholder (Visual Layer) -->
     {#if items.length === 0}
       <div
         class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20"
@@ -81,5 +68,24 @@
         </span>
       </div>
     {/if}
-  </section>
+
+    <!-- 
+        3. Drop Zone (Logic Layer)
+        - relative z-10: Sits ON TOP of the pattern/text.
+        - min-h-full: Stretches to cover the wrapper.
+        - bg-transparent: Lets the wrapper's background show through.
+      -->
+    <section
+      class="relative z-10 flex min-h-full w-full flex-wrap content-start items-start gap-2 p-2 bg-transparent"
+      use:dndzone={{ items, flipDurationMs }}
+      onconsider={handleDndConsider}
+      onfinalize={handleDndFinalize}
+    >
+      {#each items as item (item.id)}
+        <div animate:flip={{ duration: flipDurationMs }}>
+          <ItemCard {item} />
+        </div>
+      {/each}
+    </section>
+  </div>
 </div>
