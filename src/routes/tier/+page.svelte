@@ -48,19 +48,19 @@
           <span
             class="flex h-16 items-center border-4 border-border bg-primary px-4 text-5xl font-black tracking-tighter text-primary-foreground shadow-[6px_6px_0px_0px_var(--color-accent)] lg:h-20 lg:text-7xl"
           >
-            FF-
+            FF
           </span>
           <span
             class="ml-2 text-5xl font-black uppercase tracking-tighter text-transparent lg:text-7xl"
             style="-webkit-text-stroke: 3px var(--color-foreground); text-shadow: 6px 6px 0px var(--color-accent);"
           >
-            Bangumi
+            Bangumi Tier
           </span>
         </div>
         <span
-          class="mt-2 rotate-2 border-2 border-border bg-accent px-2 py-1 text-xs font-bold text-accent-foreground shadow-[2px_2px_0px_0px_var(--color-border)] lg:mt-0"
+          class="hidden md:block mt-2 rotate-2 border-2 border-border bg-accent px-2 py-1 text-xs font-bold text-accent-foreground shadow-[2px_2px_0px_0px_var(--color-border)] lg:mt-0"
         >
-          VER 2.0
+          VER 0.1.0
         </span>
       </div>
 
