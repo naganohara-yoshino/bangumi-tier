@@ -7,77 +7,47 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0px; /* Strict Brutalism */
+  --radius: 0px;
 
-  /* DAY MODE: Raw Canvas & Heavy Ink */
-  --background: oklch(0.94 0.02 96); /* #EFEDE6 (Bone White) */
-  --foreground: oklch(0.15 0 0); /* #1F1F1F (Soft Black) */
-
-  --card: oklch(1 0 0); /* #FFFFFF (Pure White) */
+  /* DAY: Bone & Ink */
+  --background: oklch(0.94 0.02 96); /* #EFEDE6 */
+  --foreground: oklch(0.15 0 0); /* #1F1F1F */
+  --card: oklch(1 0 0); /* #FFFFFF */
   --card-foreground: oklch(0 0 0);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0 0 0);
+  --primary: oklch(0.1 0 0); /* #111111 */
+  --primary-foreground: oklch(0.98 0 0);
 
-  /* Primary is used for headers/buttons */
-  --primary: oklch(0.1 0 0); /* #111111 (Ink Black) */
-  --primary-foreground: oklch(0.98 0 0); /* #FAFAFA */
-
-  --secondary: oklch(0.88 0 0); /* Light Grey blocks */
-  --secondary-foreground: oklch(0.1 0 0);
-
-  --muted: oklch(0.96 0.01 96);
-  --muted-foreground: oklch(0.5 0 0);
-
-  /* The "Radical" Accent: Acid Lime */
-  --accent: oklch(0.88 0.25 145); /* #BFFF00 */
+  --accent: oklch(0.88 0.25 145); /* #BFFF00 (Lime) */
   --accent-foreground: oklch(0.1 0 0);
 
-  --destructive: oklch(0.6 0.25 25);
-
-  --border: oklch(0 0 0); /* Hard Black Borders */
-  --input: oklch(0 0 0);
-  --ring: oklch(0 0 0);
+  --muted: oklch(0.96 0.01 96);
+  --border: oklch(0 0 0); /* Black */
 
   /* VIVID TIERS */
-  --chart-1: oklch(0.6 0.25 20); /* S: Hot Crimson */
-  --chart-2: oklch(0.7 0.22 45); /* A: Safety Orange */
-  --chart-3: oklch(0.85 0.23 105); /* B: Toxic Yellow */
-  --chart-4: oklch(0.7 0.18 200); /* C: Azure Blue */
-  --chart-5: oklch(0.65 0.25 300); /* D: Electric Purple */
+  --chart-1: oklch(0.6 0.25 20); /* Crimson */
+  --chart-2: oklch(0.7 0.22 45); /* Orange */
+  --chart-3: oklch(0.85 0.23 105); /* Yellow */
+  --chart-4: oklch(0.7 0.18 200); /* Azure */
+  --chart-5: oklch(0.65 0.25 300); /* Purple */
 }
 
 .dark {
-  /* NIGHT MODE: Deep Void & Cyber Neon */
-  --background: oklch(0.12 0.02 260); /* #141419 (Deep Blue-Black) */
-  --foreground: oklch(0.95 0 0); /* #F2F2F2 */
-
-  --card: oklch(0.18 0.02 260); /* #24242C (Lighter Void) */
+  /* NIGHT: Void & Neon */
+  --background: oklch(0.12 0.02 260); /* Deep Blue-Black */
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.18 0.02 260); /* Lighter Void */
   --card-foreground: oklch(0.95 0 0);
 
-  --popover: oklch(0.1 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-
-  --primary: oklch(0.95 0 0); /* White Primary */
+  --primary: oklch(0.95 0 0); /* White */
   --primary-foreground: oklch(0.1 0 0);
 
-  --secondary: oklch(0.25 0 0);
-  --secondary-foreground: oklch(0.95 0 0);
-
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-
-  /* Accent: Cyber Magenta */
-  --accent: oklch(0.65 0.3 320); /* #E600E6 */
+  --accent: oklch(0.65 0.3 320); /* Magenta */
   --accent-foreground: oklch(0.95 0 0);
 
-  --destructive: oklch(0.6 0.25 25);
+  --muted: oklch(0.2 0 0);
+  --border: oklch(0.95 0 0); /* White */
 
-  --border: oklch(0.95 0 0); /* White Borders */
-  --input: oklch(0.95 0 0);
-  --ring: oklch(0.95 0 0);
-
-  /* GLOWING TIERS */
   --chart-1: oklch(0.65 0.25 20);
   --chart-2: oklch(0.75 0.22 45);
   --chart-3: oklch(0.85 0.23 105);
@@ -96,8 +66,6 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -115,23 +83,26 @@
 }
 
 @layer utilities {
+  /* Universal Floating Brick Scrollbar */
   .scrollbar-brutal::-webkit-scrollbar {
     width: 20px;
   }
+
   .scrollbar-brutal::-webkit-scrollbar-track {
     background: transparent;
   }
-  .scrollbar-brutal-bordered::-webkit-scrollbar {
-    background: var(--card);
-    border-left: 4px solid var(--border);
-  }
+
   .scrollbar-brutal::-webkit-scrollbar-thumb {
-    background-color: var(--primary);
+    background-color: var(--primary); /* Black(Day)/White(Night) */
+
+    /* Transparent border + content-box creates the "floating" effect */
     border: 5px solid transparent;
     background-clip: content-box;
+
     border-radius: 0px;
   }
+
   .scrollbar-brutal::-webkit-scrollbar-thumb:hover {
-    background-color: var(--chart-2); /* Hovering turns thumb Orange */
+    background-color: var(--chart-2); /* Interaction Pop */
   }
 }
