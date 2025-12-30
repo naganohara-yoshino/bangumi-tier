@@ -9,6 +9,10 @@
   let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> =
     $props();
 
+  let initialIndexId: number | undefined = $state();
+
+  let initialUsername: string | undefined = $state();
+
   const id = $props.id();
 
   // --- Neo-Brutalist Styles ---
@@ -100,7 +104,8 @@
           id="index-{id}"
           type="text"
           class={inputClass}
-          placeholder="12345..."
+          placeholder="86319"
+          bind:value={initialIndexId}
         />
         <Button size="icon" class={btnIconClass}>
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
@@ -123,7 +128,7 @@
           href="##"
           class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
         >
-          Find ID
+          Find your username.
         </a>
       </div>
       <div class="flex gap-3">
@@ -131,7 +136,8 @@
           id="bgm_username-{id}"
           type="text"
           class={inputClass}
-          placeholder="username"
+          placeholder="sai"
+          bind:value={initialUsername}
         />
         <Button size="icon" class={btnIconClass}>
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
