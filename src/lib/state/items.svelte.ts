@@ -45,7 +45,8 @@ class ItemLoader {
     return { loaded, errors, pending, total: this.itemStates.size };
   });
 
-  allLoaded: Item[] = $derived.by(() => {
+  // ! Most important data api
+  allLoadedItems: Item[] = $derived.by(() => {
     return this.loadedOrder.flatMap((id) => {
       const state = this.itemStates.get(id);
       if (state?.status === "loaded") {
@@ -55,7 +56,7 @@ class ItemLoader {
     });
   });
 
-  // --- METHODS (Must stay functions because they take arguments) ---
+  // --- METHODS ---
 
   // You cannot make this a $derived property because it needs 'id'
   getItemState(id: string): ItemStatus {
@@ -78,9 +79,8 @@ class ItemLoader {
     });
   }
 
-  // --- ACTIONS ---
-
   /**
+   * ! Most important data api
    * Load items of given ids
    * Add them to queue
    * Concurrency is handled automatically by the internal p-limit queue.
