@@ -19,7 +19,7 @@
 		"@iconify/tailwind4": "^1.2.0",
 		"@inlang/paraglide-js": "^2.6.0",
 		"@internationalized/date": "^3.10.0",
-		"@lucide/svelte": "^0.561.0",
+		"@lucide/svelte": "^0.562.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/enhanced-img": "^0.9.2",
 		"@sveltejs/kit": "^2.49.1",
