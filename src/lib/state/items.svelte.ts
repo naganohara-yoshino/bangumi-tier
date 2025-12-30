@@ -1,6 +1,6 @@
 // item-store.svelte.ts
 import pLimit from "p-limit";
-import { fetchItemById } from "$lib/api/fetchers.svelte";
+import { fetchItemById } from "$lib/api/bgmFetchers.svelte";
 import type { Item } from "$lib/schemas/item";
 
 export type ItemStatus =
