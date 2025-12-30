@@ -8,12 +8,16 @@ export type ItemStatus =
   | { status: "loaded"; item: Item }
   | { status: "error" };
 
-class ItemStore {
+class ItemLoader {
   // --- STATE ---
+  // Current inner state, get item by id
   itemStates = $state(new Map<string, ItemStatus>());
+  // The queue (ids) of fetching items
   loadingQueue = $state(new Set<string>());
+  // Ids of loaded item, keep original order
   loadedOrder = $state<string[]>([]);
 
+  // p-limit
   #limit;
 
   constructor(concurrency = 50) {
@@ -21,7 +25,6 @@ class ItemStore {
   }
 
   // --- DERIVED PROPERTIES
-
   isLoading = $derived(this.loadingQueue.size > 0);
 
   stats = $derived.by(() => {
@@ -42,7 +45,7 @@ class ItemStore {
     return { loaded, errors, pending, total: this.itemStates.size };
   });
 
-  allLoadedItems = $derived.by(() => {
+  allLoaded: Item[] = $derived.by(() => {
     return this.loadedOrder.flatMap((id) => {
       const state = this.itemStates.get(id);
       if (state?.status === "loaded") {
@@ -60,7 +63,7 @@ class ItemStore {
   }
 
   /**
-   * Returns the Item objects for the provided list of IDs,
+   * Returns Items that are loaded from list of IDs,
    * maintaining the order of the input IDs.
    * Only includes items that are fully loaded.
    */
@@ -78,10 +81,11 @@ class ItemStore {
   // --- ACTIONS ---
 
   /**
-   * Ensures all provided IDs are loaded.
+   * Load items of given ids
+   * Add them to queue
    * Concurrency is handled automatically by the internal p-limit queue.
    */
-  makeItemsToload(targetIds: string[]) {
+  loadItems(targetIds: string[]) {
     const toLoad = targetIds.filter((id) => {
       const state = this.itemStates.get(id);
 
@@ -121,4 +125,4 @@ class ItemStore {
   }
 }
 
-export const itemStore = new ItemStore();
+export const itemLoader = new ItemLoader();
