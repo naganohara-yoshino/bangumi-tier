@@ -1,4 +1,4 @@
-// item-store.svelte.ts
+// items.svelte.ts
 import pLimit from "p-limit";
 import { fetchItemById } from "$lib/api/bgmFetchers.svelte";
 import type { Item } from "$lib/schemas/item";
@@ -11,24 +11,24 @@ export type ItemStatus =
 
 class ItemStore {
   // --- Public State ---
-  // Exposed publicly so external components can check specific ID statuses
   states = $state(new Map<string, ItemStatus>());
-
-  // loaded Item Ids
   loadedItemIds = $state<string[]>([]);
 
-  // --- Private State ---
-  // Tracks active requests to prevent duplicate fetching
-  #queue = $state(new Set<string>());
+  // Using a Set serves two purposes:
+  // 1. O(1) lookups to prevent duplicates when adding.
+  // 2. JS Sets maintain insertion order, so it acts as a FIFO queue automatically.
+  pendingIds = $state(new Set<string>());
 
-  // Tracks failure counts for auto-retry logic
+  // --- Private State ---
+
+  // Tracks items currently in flight
+  #activeRequests = $state(new Set<string>());
+
+  #maxRetries = 3;
+
   #retryCounts = new Map<string, number>();
 
-  // Concurrency limiter
   #limit;
-
-  // Configuration
-  #maxRetries = 3;
 
   constructor(concurrency = 50) {
     this.#limit = pLimit(concurrency);
@@ -36,11 +36,10 @@ class ItemStore {
 
   // --- Derived Properties ---
 
-  // Global loading indicator
-  isLoading = $derived(this.#queue.size > 0);
+  isLoading = $derived(this.#activeRequests.size > 0);
 
-  // The main data list.
-  // Maps the loadedItemIds to actual items, extra filtering out non-loaded states.
+  pendingCount = $derived(this.pendingIds.size);
+
   loadedItems = $derived.by(() => {
     return this.loadedItemIds.flatMap((id) => {
       const s = this.states.get(id);
@@ -48,66 +47,125 @@ class ItemStore {
     });
   });
 
-  // Optional stats for debugging / dashboards
   stats = $derived.by(() => {
     let loaded = 0,
-      errors = 0;
+      errors = 0,
+      pending = 0;
     for (const s of this.states.values()) {
       if (s.status === "loaded") loaded++;
       if (s.status === "error") errors++;
+      if (s.status === "pending") pending++;
     }
-    return { loaded, errors, total: this.states.size };
+    return { loaded, errors, pending, total: this.states.size };
   });
 
-  // If has more items to load
-  hasMore = $derived(this.loadedItemIds.length < this.states.size);
+  isCompletelyLoaded = $derived(
+    this.states.size > 0 && this.loadedItemIds.length === this.states.size,
+  );
 
   // --- Actions ---
 
   /**
-   * Main entry point to load a list of IDs.
-   * - Skips items that are already loaded or currently loading.
-   * - Retries items in 'error' state ONLY IF they haven't exceeded max retries.
+   * Add IDs to the pending Set.
+   * - Automatically handles deduplication (Set property).
+   * - Resets error counts if re-adding an item that previously failed.
+   */
+  addToPending(ids: string[]) {
+    for (const id of ids) {
+      const s = this.states.get(id);
+
+      // We process if:
+      // 1. It's completely new (!s)
+      // 2. It was an error (retry strategy)
+      // 3. It's already pending (we might just want to ensure it's in the Set, Set.add is safe)
+      const isNew = !s;
+      const isError = s?.status === "error";
+      const isPending = s?.status === "pending";
+
+      if (isNew || isError || isPending) {
+        if (isError) {
+          this.#retryCounts.delete(id); // Reset retry on manual add
+        }
+
+        // Update visual status
+        if (!isPending) {
+          this.states.set(id, { status: "pending" });
+        }
+
+        // Add to Set
+        this.pendingIds.add(id);
+      }
+    }
+  }
+
+  /**
+   * Process a batch of items from the pending Set.
+   * Takes the first N items (FIFO) from the Set and processes them.
+   */
+  processPending(batchSize = 30) {
+    if (this.pendingIds.size === 0) return;
+
+    const batch: string[] = [];
+
+    // Iterate over the Set. Since JS Sets preserve insertion order,
+    // this effectively acts like shifting from a Queue.
+    for (const id of this.pendingIds) {
+      batch.push(id);
+      if (batch.length >= batchSize) break;
+    }
+
+    // Remove the selected items from the pending set
+    for (const id of batch) {
+      this.pendingIds.delete(id);
+    }
+
+    // Process this batch
+    this.loadItems(batch);
+  }
+
+  /**
+   * Immediate load for specific IDs.
    */
   loadItems(ids: string[]) {
     const targets = ids.filter((id) => {
       const s = this.states.get(id);
 
-      // 1. If never seen (undefined) or pending, load it.
+      // If active, skip
+      if (this.#activeRequests.has(id)) return false;
+
+      // If pending, allow
       if (!s || s.status === "pending") return true;
 
-      // 2. If it is an error, check if we can retry.
+      // If error, check retries
       if (s.status === "error") {
         const retries = this.#retryCounts.get(id) || 0;
         return retries < this.#maxRetries;
       }
 
-      // 3. If loaded or loading, skip.
       return false;
     });
 
     for (const id of targets) {
+      // Ensure we remove it from pendingIds if it was triggered directly via loadItems
+      // (e.g. if user clicked a specific item that was waiting in the pending queue)
+      if (this.pendingIds.has(id)) {
+        this.pendingIds.delete(id);
+      }
       this.#processFetch(id);
     }
   }
 
-  /**
-   * Manually retry a specific item.
-   * Resets the retry counter and forces a load.
-   * Useful for "Retry" buttons in the UI.
-   */
   retry(id: string) {
-    this.#retryCounts.set(id, 0); // Reset counter
+    this.#retryCounts.set(id, 0);
+    this.pendingIds.delete(id); // Ensure not double queued
     this.#processFetch(id);
   }
 
-  /**
-   * Reset the entire store.
-   */
   reset() {
     this.states.clear();
-    this.#queue.clear();
+    this.#activeRequests.clear();
     this.loadedItemIds = [];
+    this.pendingIds.clear();
     this.#retryCounts.clear();
     this.#limit.clearQueue();
   }
@@ -115,10 +173,9 @@ class ItemStore {
   // --- Private Implementation ---
 
   #processFetch(id: string) {
-    // Defense: prevent duplicate requests in the queue
-    if (this.#queue.has(id)) return;
+    if (this.#activeRequests.has(id)) return;
 
-    this.#queue.add(id);
+    this.#activeRequests.add(id);
     this.states.set(id, { status: "loading" });
 
     this.#limit(async () => {
@@ -126,33 +183,27 @@ class ItemStore {
         const data = await fetchItemById(id);
 
         if (data) {
-          // Success
           this.states.set(id, { status: "loaded", item: data });
-          this.#retryCounts.delete(id); // Clear error history on success
-
+          this.#retryCounts.delete(id);
           if (!this.loadedItemIds.includes(id)) {
             this.loadedItemIds.push(id);
           }
         } else {
-          // Soft failure (e.g. 404, valid response but empty)
           this.#handleError(id, "Not found");
         }
       } catch (err) {
-        // Hard failure (network error, etc)
         this.#handleError(id, String(err));
       } finally {
-        this.#queue.delete(id);
+        this.#activeRequests.delete(id);
       }
     });
   }
 
   #handleError(id: string, message: string) {
-    // Increment retry count
     const currentCount = this.#retryCounts.get(id) || 0;
     this.#retryCounts.set(id, currentCount + 1);
-
     this.states.set(id, { status: "error", error: message });
   }
 }
 
-export const itemStore = new ItemStore();
+export const itemsUnrankedStore = new ItemStore();
