@@ -62,19 +62,43 @@
     class="scrollbar-brutal relative flex-1 min-h-0 w-full overflow-y-auto bg-background text-foreground/10"
     style={hazardPattern}
   >
-    {#if items.length === 0 && !hasMore}
-      <div
-        class="absolute inset-0 z-0 flex flex-col items-center justify-center opacity-60"
-      >
-        <span class="font-mono text-4xl font-black uppercase text-foreground"
-          >EMPTY</span
+    {#if items.length === 0}
+      {#if !hasMore}
+        <div
+          class="absolute inset-0 z-0 flex flex-col items-center justify-center opacity-60"
         >
-        <span
-          class="mt-2 bg-foreground px-2 text-xs font-bold uppercase text-background"
+          <span class="font-mono text-4xl font-black uppercase text-foreground"
+            >EMPTY</span
+          >
+          <span
+            class="mt-2 bg-foreground px-2 text-xs font-bold uppercase text-background"
+          >
+            System Standby
+          </span>
+        </div>
+      {:else}
+        <div
+          class="absolute inset-0 z-0 flex flex-col items-center justify-center opacity-60"
         >
-          System Standby
-        </span>
-      </div>
+          <div class="flex items-center justify-center gap-3">
+            <span
+              class="font-mono text-4xl font-black uppercase text-foreground"
+            >
+              LOADING
+            </span>
+
+            <span
+              class="icon-[line-md--loading-twotone-loop] text-4xl text-foreground"
+            ></span>
+          </div>
+
+          <span
+            class="mt-2 bg-foreground px-2 text-xs font-bold uppercase text-background"
+          >
+            Please Wait
+          </span>
+        </div>
+      {/if}
     {/if}
 
     <section
@@ -103,25 +127,26 @@
       })}
       class="relative z-10 flex w-full flex-col items-center justify-center py-6 gap-1 opacity-50 select-none"
     >
-      {#if hasMore}
-        <!-- Loading State: Blinking Underscore Cursor -->
-        <div
-          class="flex items-center gap-2 text-foreground font-mono text-[10px] font-bold tracking-widest uppercase"
-        >
-          <span>[</span>
-          <span>FETCHING_DATA</span>
-          <span class="icon-[line-md--loading-twotone-loop]"></span>
-          <span>]</span>
-        </div>
-      {:else if items.length > 0}
-        <!-- End of List: Static System Message -->
-        <div
-          class="flex items-center gap-2 text-foreground/40 font-mono text-[10px] font-bold tracking-widest uppercase"
-        >
-          <span>//</span>
-          <span>END_OF_STREAM</span>
-          <span>//</span>
-        </div>
+      {#if items.length > 0}
+        {#if !hasMore}
+          <!-- End of List: Static System Message -->
+          <div
+            class="flex items-center gap-2 text-foreground/40 font-mono text-[10px] font-bold tracking-widest uppercase"
+          >
+            <span>//</span>
+            <span>END_OF_STREAM</span>
+            <span>//</span>
+          </div>
+        {:else}
+          <!-- Loading State: Blinking Underscore Cursor -->
+          <div
+            class="flex items-center gap-2 text-foreground font-mono text-[10px] font-bold tracking-widest uppercase"
+          >
+            <span>[</span>
+            <span>FETCHING_DATA</span>
+            <span class="icon-[line-md--loading-twotone-loop]"></span>
+            <span>]</span>
+          </div>{/if}
       {/if}
     </div>
   </div>
