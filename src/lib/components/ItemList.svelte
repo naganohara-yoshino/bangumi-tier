@@ -62,7 +62,7 @@
     class="scrollbar-brutal relative flex-1 min-h-0 w-full overflow-y-auto bg-background text-foreground/10"
     style={hazardPattern}
   >
-    {#if items.length === 0}
+    {#if items.length === 0 && !hasMore}
       <div
         class="absolute inset-0 z-0 flex flex-col items-center justify-center opacity-60"
       >
@@ -98,18 +98,19 @@
 
     <div
       {@attach createAggressiveScroll(loadMore, {
-        root: scrollContainer, // 确保传入非空
+        root: scrollContainer,
         hasMore: hasMore,
       })}
       class="relative z-10 flex w-full flex-col items-center justify-center py-6 gap-1 opacity-50 select-none"
     >
       {#if hasMore}
-        <!-- Loading State: Blinking Underscore -->
+        <!-- Loading State: Blinking Underscore Cursor -->
         <div
-          class="flex items-center gap-2 text-foreground font-mono text-[10px] font-bold tracking-widest uppercase animate-pulse"
+          class="flex items-center gap-2 text-foreground font-mono text-[10px] font-bold tracking-widest uppercase"
         >
           <span>[</span>
           <span>FETCHING_DATA</span>
+          <span class="icon-[line-md--loading-twotone-loop]"></span>
           <span>]</span>
         </div>
       {:else if items.length > 0}
