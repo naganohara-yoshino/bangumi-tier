@@ -5,6 +5,7 @@
   import { cn } from "$lib/utils.js";
   import { m } from "$lib/paraglide/messages.js";
   import type { HTMLAttributes } from "svelte/elements";
+  import { addIndexAndGoto } from "$lib/actions.svelte";
 
   let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> =
     $props();
@@ -107,7 +108,15 @@
           placeholder="86319"
           bind:value={initialIndexId}
         />
-        <Button size="icon" class={btnIconClass}>
+        <Button
+          size="icon"
+          class={btnIconClass}
+          onclick={() => {
+            if (initialIndexId !== undefined) {
+              addIndexAndGoto(initialIndexId);
+            }
+          }}
+        >
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
         </Button>
       </div>

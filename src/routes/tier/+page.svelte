@@ -56,15 +56,15 @@
     isSidebarOpen = !isSidebarOpen;
   }
 
-  // --- MOCK DATA (For Demo Purposes) ---
-  onMount(() => {
-    // 1. Queue up 500 fake IDs into the store
-    const fakeIds = _.range(1, 400).map((i) => `person_${i}`);
-    itemsUnrankedStore.addToPending(fakeIds);
+  // // --- MOCK DATA (For Demo Purposes) ---
+  // onMount(() => {
+  //   // 1. Queue up 500 fake IDs into the store
+  //   const fakeIds = _.range(1, 40).map((i) => `person_${i}`);
+  //   itemsUnrankedStore.addToPending(fakeIds);
 
-    // 2. Trigger the first batch immediately so the list isn't empty on load
-    // itemsUnrankedStore.processPending(40);
-  });
+  //   // 2. Trigger the first batch immediately so the list isn't empty on load
+  //   // itemsUnrankedStore.processPending(40);
+  // });
 </script>
 
 <div
