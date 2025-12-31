@@ -1,17 +1,32 @@
-<script>
+<script lang="ts">
+  import createAggressiveScroll from "$lib/infiniteScroll";
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
 
-  let { items = $bindable(), title = "Inventory" } = $props();
+  let {
+    items = $bindable(),
+    title = "Collection",
+    hasMore = false,
+    loadMore = async () => {},
+  }: {
+    items: any;
+    title: string;
+    hasMore: boolean;
+    loadMore: () => void | Promise<void>;
+  } = $props();
 
   const flipDurationMs = 300;
+
+  // DND Handlers
   function handleDndConsider(e) {
     items = e.detail.items;
   }
   function handleDndFinalize(e) {
     items = e.detail.items;
   }
+
+  let scrollContainer: HTMLElement | undefined = $state();
 
   const hazardPattern = `background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 10px); background-size: 16px 16px;`;
 </script>
@@ -36,10 +51,10 @@
 
   <!-- 
     Scrollable Area
-    - Removed 'scrollbar-brutal-bordered'
-    - Uses 'scrollbar-brutal' for consistent floating thumb style
+    - bound to scrollContainer for IntersectionObserver
   -->
   <div
+    bind:this={scrollContainer}
     class="scrollbar-brutal relative flex-1 min-h-0 w-full overflow-y-auto bg-background text-foreground/10"
     style={hazardPattern}
   >
@@ -59,7 +74,7 @@
     {/if}
 
     <section
-      class="relative z-10 grid min-h-full w-full grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] place-items-center content-start gap-x-2 gap-y-4 p-4"
+      class="relative z-10 grid min-h-[100px] w-full grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] place-items-center content-start gap-x-2 gap-y-4 p-4"
       use:dndzone={{ items, flipDurationMs }}
       onconsider={handleDndConsider}
       onfinalize={handleDndFinalize}
@@ -70,5 +85,39 @@
         </div>
       {/each}
     </section>
+
+    <!-- 
+      Neo-Brutalist Sentinel (The Inconspicuous Loader)
+      - Appears at the bottom of the scroll list
+      - Style: Terminal/System log style, low opacity
+    -->
+
+    <div
+      {@attach createAggressiveScroll(loadMore, {
+        root: scrollContainer, // 确保传入非空
+        hasMore: hasMore,
+      })}
+      class="relative z-10 flex w-full flex-col items-center justify-center py-6 gap-1 opacity-50 select-none"
+    >
+      {#if hasMore}
+        <!-- Loading State: Blinking Underscore -->
+        <div
+          class="flex items-center gap-2 text-foreground font-mono text-[10px] font-bold tracking-widest uppercase animate-pulse"
+        >
+          <span>[</span>
+          <span>FETCHING_DATA</span>
+          <span>]</span>
+        </div>
+      {:else if items.length > 0}
+        <!-- End of List: Static System Message -->
+        <div
+          class="flex items-center gap-2 text-foreground/40 font-mono text-[10px] font-bold tracking-widest uppercase"
+        >
+          <span>//</span>
+          <span>END_OF_STREAM</span>
+          <span>//</span>
+        </div>
+      {/if}
+    </div>
   </div>
 </div>
