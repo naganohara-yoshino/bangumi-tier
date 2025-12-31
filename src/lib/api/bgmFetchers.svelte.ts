@@ -11,8 +11,8 @@ export async function fetchSubject(
   if (!data) return undefined;
 
   return {
-    id: subject_id,
-    key: `subject:${subject_id}`,
+    bgm_id: subject_id,
+    id: `subject:${subject_id}`,
     category: "subject",
     name: data.name_cn || data.name || "Unknown",
     image: data.images?.medium,
@@ -29,8 +29,8 @@ export async function fetchCharacter(
   if (!data) return undefined;
 
   return {
-    id: character_id,
-    key: `character:${character_id}`,
+    bgm_id: character_id,
+    id: `character:${character_id}`,
     category: "character",
     name: data.name || "Unknown",
     image: data.images?.medium,
@@ -47,8 +47,8 @@ export async function fetchPerson(
   if (!data) return undefined;
 
   return {
-    id: person_id,
-    key: `person:${person_id}`,
+    bgm_id: person_id,
+    id: `person:${person_id}`,
     category: "person",
     name: data.name || "Unknown",
     image: data.images?.medium,
@@ -59,7 +59,7 @@ export async function fetchItemByIdentity(
   itemIdentity: ItemIdentity,
 ): Promise<ItemData | undefined> {
   const cat = itemIdentity.category;
-  const id = itemIdentity.id;
+  const id = itemIdentity.bgm_id;
   if (cat === "subject") {
     return fetchSubject(id);
   } else if (cat === "character") {

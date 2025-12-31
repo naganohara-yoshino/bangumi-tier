@@ -17,7 +17,7 @@ export type ItemState = {
 // 2. 辅助函数
 // ==========================================
 function generateKey(identity: ItemIdentity): string {
-  return `${identity.category}:${identity.id}`;
+  return `${identity.category}:${identity.bgm_id}`;
 }
 
 // ==========================================
@@ -73,7 +73,7 @@ export class BatchLoader {
       try {
         const result = await this.#limit(() =>
           this.#queryClient.fetchQuery({
-            queryKey: ["item", identity.category, identity.id],
+            queryKey: ["item", identity.category, identity.bgm_id],
             queryFn: async () => {
               const data = await fetchItemByIdentity(identity);
               if (!data) throw new Error("Not Found");
@@ -105,7 +105,7 @@ export class BatchLoader {
     this.#orderedKeys.map((key) => {
       const item = this.#itemMap.get(key)!;
       return {
-        key,
+        id: key,
         ...item.identity, // 方便 UI 获取 id/category
         ...item.data, // 方便 UI 获取 name/image
         status: item.status,

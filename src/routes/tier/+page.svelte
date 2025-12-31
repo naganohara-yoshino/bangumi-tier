@@ -33,9 +33,9 @@
 
     for (const item of allLoaded) {
       // If this item hasn't been seen by our UI list yet...
-      if (!addedToUi.has(item.key)) {
+      if (!addedToUi.has(item.id)) {
         tierItems.push(item);
-        addedToUi.add(item.key);
+        addedToUi.add(item.id);
       }
     }
   });
