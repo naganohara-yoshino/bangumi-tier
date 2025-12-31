@@ -8,7 +8,7 @@
   // Global State
   import { itemLoader } from "$lib/batchLoader.svelte";
   import _ from "lodash";
-  import type { ItemData } from "$lib/schemas/item";
+  import type { ItemData, ItemIdentity } from "$lib/schemas/item";
 
   // let { data }: PageProps = $props();
 
@@ -53,15 +53,18 @@
     isSidebarOpen = !isSidebarOpen;
   }
 
-  // // --- MOCK DATA (For Demo Purposes) ---
-  // onMount(() => {
-  //   // 1. Queue up 500 fake IDs into the store
-  //   const fakeIds = _.range(1, 40).map((i) => `person_${i}`);
-  //   itemsUnrankedStore.addToPending(fakeIds);
+  // --- MOCK DATA (For Demo Purposes) ---
+  onMount(() => {
+    // 1. Queue up 500 fake IDs into the store
+    const fakeIds = _.range(1, 40).map(
+      (bgm_id: number): ItemIdentity => ({ bgm_id, category: "person" }),
+    );
+    itemLoader.addItems(fakeIds);
+    itemLoader.kickOff();
 
-  //   // 2. Trigger the first batch immediately so the list isn't empty on load
-  //   // itemsUnrankedStore.processPending(40);
-  // });
+    console.log("aa");
+  });
+  $inspect(itemLoader.isDone);
 </script>
 
 <div
@@ -127,8 +130,8 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
-        bind:items={tierItems}
-        isGoingToLoad={!itemLoader.isDone}
+        bind:items={itemLoader.loadedItems}
+        isGoingToLoad={false}
         {loadMore}
       />
     </div>

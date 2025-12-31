@@ -25,5 +25,5 @@ function mapIds(
   ids: number[],
   category: ItemIdentity["category"],
 ): ItemIdentity[] {
-  return ids.map((id) => ({ id, category }));
+  return ids.map((bgm_id) => ({ bgm_id, category }));
 }
