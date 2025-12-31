@@ -1,25 +1,70 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import ItemList from "$lib/components/ItemList.svelte";
   import TierBar from "$lib/components/TierBar.svelte";
-  import UtilBar from "$lib/components/UtilBar.svelte"; // Renamed import
-  import type { PageProps } from "./$types";
+  import UtilBar from "$lib/components/UtilBar.svelte";
 
-  let { data }: PageProps = $props();
+  // Global State
+  import { itemsUnrankedStore } from "$lib/state/items.svelte";
+  import type { Item } from "$lib/schemas/item";
+  import _ from "lodash";
 
+  // let { data }: PageProps = $props();
+
+  // --- Tier State ---
   let tierLevel1 = $state([]);
   let tierLevel2 = $state([]);
   let tierLevel3 = $state([]);
   let tierLevel4 = $state([]);
   let tierLevel5 = $state([]);
 
-  // svelte-ignore state_referenced_locally
-  let tierItems = $state(data.items);
+  // --- Inventory State ---
+  // We keep a local state for the UI so dndzone can mutate it temporarily during drags.
+  let tierItems = $state<Item[]>([]);
 
-  // Sidebar State
+  // Track IDs that have been added to the UI list to prevent duplicates
+  // and to ensure items dragged OUT of the list don't bounce back in.
+  const addedToUi = $state(new Set<string>());
+
+  // SYNC: Watch the store and only append *new* items.
+  $effect(() => {
+    let allLoaded = itemsUnrankedStore.loadedItems;
+    let hasNew = false;
+
+    for (const item of allLoaded) {
+      // If this item hasn't been seen by our UI list yet...
+      if (!addedToUi.has(item.id)) {
+        tierItems.push(item);
+        addedToUi.add(item.id);
+        hasNew = true;
+      }
+    }
+  });
+  let hasMore = $derived(!itemsUnrankedStore.isCompletelyLoaded);
+
+  // --- Infinite Scroll Handlers ---
+
+  const loadMore = () => {
+    itemsUnrankedStore.processPending();
+    console.log("haha");
+  };
+
+  // --- Sidebar State ---
   let isSidebarOpen = $state(true);
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
   }
+
+  // --- MOCK DATA (For Demo Purposes) ---
+  onMount(() => {
+    // 1. Queue up 500 fake IDs into the store
+    const fakeIds = _.range(1, 400).map((i) => `person_${i}`);
+    itemsUnrankedStore.addToPending(fakeIds);
+
+    // 2. Trigger the first batch immediately so the list isn't empty on load
+    // itemsUnrankedStore.processPending(40);
+  });
 </script>
 
 <div
@@ -32,10 +77,6 @@
   ></div>
 
   <!-- Left Panel (Tiers) -->
-  <!-- 
-    Logic: When sidebar is closed (!isSidebarOpen), this panel should grow to take full space.
-    The 'flex-1' class already handles this automatically as long as the other panel disappears.
-  -->
   <main
     class="scrollbar-brutal relative z-10 flex flex-1 flex-col overflow-y-auto p-4 lg:p-10"
   >
@@ -66,7 +107,6 @@
 
       <!-- UtilBar -->
       <div class="shrink-0">
-        <!-- Pass the toggle handler and state -->
         <UtilBar onToggleSidebar={toggleSidebar} {isSidebarOpen} />
       </div>
     </header>
@@ -80,13 +120,7 @@
     </div>
   </main>
 
-  <!-- 
-    Right Panel (ItemList) 
-    Transition Logic:
-    1. We keep the DOM element but collapse width/height to 0.
-    2. overflow-hidden is crucial to hide content during collapse.
-    3. transition-all duration-300 makes the snap smooth.
-  -->
+  <!-- Right Panel (ItemList) -->
   <aside
     class="relative z-20 flex flex-col border-border bg-background transition-all duration-300 ease-in-out overflow-hidden
     {isSidebarOpen
@@ -94,12 +128,12 @@
       : 'border-0 p-0'}
     {isSidebarOpen ? 'h-[45%] lg:h-full lg:w-[420px]' : 'h-0 lg:h-full lg:w-0'}"
   >
-    <!-- 
-      We wrap the content in a fixed width div (on desktop) so the content 
-      doesn't squish while the panel width shrinks. 
-    -->
     <div class="h-full w-full min-w-[300px]">
-      <ItemList bind:items={tierItems} title="Collection" />
+      <ItemList
+        bind:items={itemsUnrankedStore.loadedItems}
+        {hasMore}
+        {loadMore}
+      />
     </div>
   </aside>
 </div>

@@ -3,6 +3,7 @@
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
+  import type { Item } from "$lib/schemas/item";
 
   let {
     items = $bindable(),
@@ -10,8 +11,8 @@
     hasMore = false,
     loadMore = async () => {},
   }: {
-    items: any;
-    title: string;
+    items: Item[];
+    title?: string;
     hasMore: boolean;
     loadMore: () => void | Promise<void>;
   } = $props();
