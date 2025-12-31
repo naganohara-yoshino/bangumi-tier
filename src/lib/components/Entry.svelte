@@ -16,7 +16,7 @@
 
   const id = $props.id();
 
-  const ANIME_STUDIOS_INDEX_ID = 45048;
+  const ANIME_STUDIOS_INDEX_ID = 86940;
 
   const SEASONAL_ANIME_INDEX_ID = 83397;
 
