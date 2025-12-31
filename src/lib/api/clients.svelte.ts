@@ -1,4 +1,3 @@
-// api/clients.svelte.ts
 import createClient from "openapi-fetch";
 import type { paths as public_paths } from "$lib/schemas/bgm-public-api";
 import type { paths as index_paths } from "$lib/schemas/bgm-index-api";

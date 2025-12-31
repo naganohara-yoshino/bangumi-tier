@@ -1,8 +1,9 @@
 import { indClient } from "./clients.svelte";
+import type { ItemIdentity } from "$lib/schemas/item";
 
 export async function fetchIndexById(
   index_id: number,
-): Promise<string[] | undefined> {
+): Promise<ItemIdentity[] | undefined> {
   const { data } = await indClient.GET("/api/index/{index_id}", {
     params: { path: { index_id } },
   });
@@ -14,8 +15,15 @@ export async function fetchIndexById(
   const character_ids = data.index.character_ids;
 
   return [
-    ...subject_ids.map((id) => `subject_${id}`),
-    ...person_ids.map((id) => `person_${id}`),
-    ...character_ids.map((id) => `character_${id}`),
+    ...mapIds(subject_ids, "subject"),
+    ...mapIds(person_ids, "person"),
+    ...mapIds(character_ids, "character"),
   ];
+}
+
+function mapIds(
+  ids: number[],
+  category: ItemIdentity["category"],
+): ItemIdentity[] {
+  return ids.map((id) => ({ id, category }));
 }

@@ -1,9 +1,9 @@
-import { pubClient } from "./clients.svelte";
-import type { Item } from "$lib/schemas/item";
+import { pubClient } from "$lib/api/clients.svelte";
+import type { ItemData, ItemIdentity } from "$lib/schemas/item";
 
 export async function fetchSubject(
   subject_id: number,
-): Promise<Item | undefined> {
+): Promise<ItemData | undefined> {
   const { data } = await pubClient.GET("/v0/subjects/{subject_id}", {
     params: { path: { subject_id } },
   });
@@ -11,7 +11,8 @@ export async function fetchSubject(
   if (!data) return undefined;
 
   return {
-    id: `subject_${subject_id}`,
+    id: subject_id,
+    key: `subject:${subject_id}`,
     category: "subject",
     name: data.name_cn || data.name || "Unknown",
     image: data.images?.medium,
@@ -20,7 +21,7 @@ export async function fetchSubject(
 
 export async function fetchCharacter(
   character_id: number,
-): Promise<Item | undefined> {
+): Promise<ItemData | undefined> {
   const { data } = await pubClient.GET("/v0/characters/{character_id}", {
     params: { path: { character_id } },
   });
@@ -28,7 +29,8 @@ export async function fetchCharacter(
   if (!data) return undefined;
 
   return {
-    id: `character_${character_id}`,
+    id: character_id,
+    key: `character:${character_id}`,
     category: "character",
     name: data.name || "Unknown",
     image: data.images?.medium,
@@ -37,7 +39,7 @@ export async function fetchCharacter(
 
 export async function fetchPerson(
   person_id: number,
-): Promise<Item | undefined> {
+): Promise<ItemData | undefined> {
   const { data } = await pubClient.GET("/v0/persons/{person_id}", {
     params: { path: { person_id } },
   });
@@ -45,22 +47,25 @@ export async function fetchPerson(
   if (!data) return undefined;
 
   return {
-    id: `person_${person_id}`,
+    id: person_id,
+    key: `person:${person_id}`,
     category: "person",
     name: data.name || "Unknown",
     image: data.images?.medium,
   };
 }
 
-export async function fetchItemById(
-  prefixedId: string,
-): Promise<Item | undefined> {
-  const [type, idStr] = prefixedId.split("_");
-  const id = Number(idStr);
-
-  if (type === "subject") return fetchSubject(id);
-  if (type === "character") return fetchCharacter(id);
-  if (type === "person") return fetchPerson(id);
-
+export async function fetchItemByIdentity(
+  itemIdentity: ItemIdentity,
+): Promise<ItemData | undefined> {
+  const cat = itemIdentity.category;
+  const id = itemIdentity.id;
+  if (cat === "subject") {
+    return fetchSubject(id);
+  } else if (cat === "character") {
+    return fetchCharacter(id);
+  } else if (cat === "person") {
+    return fetchPerson(id);
+  }
   return undefined;
 }

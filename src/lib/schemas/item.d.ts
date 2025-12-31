@@ -1,6 +1,12 @@
-export type Item {
-  id: string; // e.g., "subject_123", "character_456"
-  category: "subject" | "character" | "person";
+export type ItemCategory = "subject" | "character" | "person";
+
+export type ItemIdentity = {
+  id: number;
+  category: ItemCategory;
+};
+
+export type ItemData = ItemIdentity & {
+  key: string; // unique
   name: string;
   image?: string;
-}
+};
