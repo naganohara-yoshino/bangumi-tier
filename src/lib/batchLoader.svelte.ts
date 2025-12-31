@@ -114,6 +114,13 @@ export class BatchLoader {
     }),
   );
 
+  loadedItems = $derived(
+    this.#orderedKeys
+      .map((key) => this.#itemMap.get(key)!)
+      .filter((i) => i.status === "success")
+      .map((i) => i.data!),
+  );
+
   isDone = $derived(
     this.#waitingQueue.length === 0 && this.#pendingCount === 0,
   );

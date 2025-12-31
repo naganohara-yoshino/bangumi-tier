@@ -8,13 +8,13 @@
   let {
     items = $bindable(),
     title = "Collection",
-    hasMore = false,
+    isGoingToLoad = false,
     loadMore = async () => {},
     total,
   }: {
     items: Item[];
     title?: string;
-    hasMore: boolean;
+    isGoingToLoad: boolean;
     loadMore: () => void | Promise<void>;
     total?: number;
   } = $props();
@@ -63,7 +63,7 @@
     style={hazardPattern}
   >
     {#if items.length === 0}
-      {#if !hasMore}
+      {#if !isGoingToLoad}
         <div
           class="absolute inset-0 z-0 flex flex-col items-center justify-center opacity-60"
         >
@@ -123,12 +123,12 @@
     <div
       {@attach createAggressiveScroll(loadMore, {
         root: scrollContainer,
-        hasMore: hasMore,
+        isGoingToLoad,
       })}
       class="relative z-10 flex w-full flex-col items-center justify-center py-6 gap-1 opacity-50 select-none"
     >
       {#if items.length > 0}
-        {#if !hasMore}
+        {#if !isGoingToLoad}
           <!-- End of List: Static System Message -->
           <div
             class="flex items-center gap-2 text-foreground/40 font-mono text-[10px] font-bold tracking-widest uppercase"

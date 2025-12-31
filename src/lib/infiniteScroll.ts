@@ -1,6 +1,6 @@
 interface AggressiveScrollOptions {
   root: HTMLElement;
-  hasMore: boolean;
+  isGoingToLoad: boolean;
   rootMargin?: string;
   retryDelay?: number;
   loadTimeout?: number;
@@ -12,14 +12,14 @@ export default function createAggressiveScroll(
 ): (element: HTMLElement) => (() => void) | undefined {
   const {
     root,
-    hasMore,
+    isGoingToLoad,
     rootMargin = "0px 0px 200px 0px",
     retryDelay = 1000,
     loadTimeout = 30000,
   } = options;
 
   return (element: HTMLElement) => {
-    if (!root || !hasMore) return;
+    if (!root || !isGoingToLoad) return;
 
     let isIntersecting = false;
     let isActive = false; // lock
@@ -34,7 +34,7 @@ export default function createAggressiveScroll(
     };
 
     const aggressiveLoop = async () => {
-      if (isDestroyed || !isIntersecting || !hasMore) {
+      if (isDestroyed || !isIntersecting || !isGoingToLoad) {
         isActive = false;
         return;
       }
@@ -52,7 +52,7 @@ export default function createAggressiveScroll(
         console.error("Aggressive scroll error:", e);
       }
 
-      if (!isDestroyed && isIntersecting && hasMore) {
+      if (!isDestroyed && isIntersecting && isGoingToLoad) {
         timer = setTimeout(aggressiveLoop, retryDelay);
       } else {
         isActive = false;

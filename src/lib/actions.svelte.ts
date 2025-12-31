@@ -1,12 +1,13 @@
 import { goto } from "$app/navigation";
 import { resolve } from "$app/paths";
 import { fetchIndexById } from "./api/indexFetchers.svelte";
-import { itemsUnrankedStore } from "./state/items.svelte";
+import { itemLoader } from "./batchLoader.svelte";
 
 export async function addIndexAndGoto(index_id: number) {
-  const itemIds = await fetchIndexById(index_id);
-  if (itemIds !== undefined) {
-    itemsUnrankedStore.addToPending(itemIds);
+  const itemIdentities = await fetchIndexById(index_id);
+  if (itemIdentities !== undefined) {
+    itemLoader.addItems(itemIdentities);
+    itemLoader.kickOff();
   }
   goto(resolve("/tier"));
 }

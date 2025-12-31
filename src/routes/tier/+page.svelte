@@ -6,9 +6,9 @@
   import UtilBar from "$lib/components/UtilBar.svelte";
 
   // Global State
-  import { itemsUnrankedStore } from "$lib/state/items.svelte";
-  import type { Item } from "$lib/schemas/item";
+  import { itemLoader } from "$lib/batchLoader.svelte";
   import _ from "lodash";
+  import type { ItemData } from "$lib/schemas/item";
 
   // let { data }: PageProps = $props();
 
@@ -21,7 +21,7 @@
 
   // --- Inventory State ---
   // We keep a local state for the UI so dndzone can mutate it temporarily during drags.
-  let tierItems = $state<Item[]>([]);
+  let tierItems = $state<ItemData[]>([]);
 
   // Track IDs that have been added to the UI list to prevent duplicates
   // and to ensure items dragged OUT of the list don't bounce back in.
@@ -29,24 +29,21 @@
 
   // SYNC: Watch the store and only append *new* items.
   $effect(() => {
-    let allLoaded = itemsUnrankedStore.loadedItems;
-    let hasNew = false;
+    let allLoaded = itemLoader.loadedItems;
 
     for (const item of allLoaded) {
       // If this item hasn't been seen by our UI list yet...
-      if (!addedToUi.has(item.id)) {
+      if (!addedToUi.has(item.key)) {
         tierItems.push(item);
-        addedToUi.add(item.id);
-        hasNew = true;
+        addedToUi.add(item.key);
       }
     }
   });
-  let hasMore = $derived(!itemsUnrankedStore.isCompletelyLoaded);
 
   // --- Infinite Scroll Handlers ---
 
   const loadMore = () => {
-    itemsUnrankedStore.processPending();
+    itemLoader.kickOff();
     console.log("haha");
   };
 
@@ -130,8 +127,8 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
-        bind:items={itemsUnrankedStore.loadedItems}
-        {hasMore}
+        bind:items={tierItems}
+        isGoingToLoad={!itemLoader.isDone}
         {loadMore}
       />
     </div>
