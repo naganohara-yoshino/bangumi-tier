@@ -16,6 +16,10 @@
 
   const id = $props.id();
 
+  const ANIME_STUDIOS_INDEX_ID = 45048;
+
+  const SEASONAL_ANIME_INDEX_ID = 83397;
+
   // --- Neo-Brutalist Styles ---
 
   // 1. Input Fields
@@ -64,8 +68,24 @@
     <!-- Quick Actions -->
     <Field.Field>
       <div class="flex flex-col gap-3">
-        <Button class={btnOutlineClass} type="button">Anime Studios</Button>
-        <Button class={btnOutlineClass} type="button">Animes</Button>
+        <Button
+          class={btnOutlineClass}
+          type="button"
+          onclick={() => {
+            addIndexAndGoto(ANIME_STUDIOS_INDEX_ID);
+          }}
+        >
+          Anime Studios
+        </Button>
+        <Button
+          class={btnOutlineClass}
+          type="button"
+          onclick={() => {
+            addIndexAndGoto(SEASONAL_ANIME_INDEX_ID);
+          }}
+        >
+          Seasonal Anime
+        </Button>
       </div>
     </Field.Field>
 

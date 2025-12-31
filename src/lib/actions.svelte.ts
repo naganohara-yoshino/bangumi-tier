@@ -6,7 +6,7 @@ import { itemsUnrankedStore } from "./state/items.svelte";
 export async function addIndexAndGoto(index_id: number) {
   const itemIds = await fetchIndexById(index_id);
   if (itemIds !== undefined) {
-    itemsUnrankedStore.loadItems(itemIds);
+    itemsUnrankedStore.addToPending(itemIds);
   }
   goto(resolve("/tier"));
 }
