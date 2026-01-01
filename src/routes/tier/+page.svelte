@@ -52,19 +52,18 @@
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
   }
-
-  // --- MOCK DATA (For Demo Purposes) ---
+  $inspect(itemLoader.loadedItems);
+  // --- Test DATA  ---
   onMount(() => {
-    // 1. Queue up 500 fake IDs into the store
-    const fakeIds = _.range(1, 40).map(
+    // 1. Queue up 39 real valid items
+    const idens = _.range(1, 40).map(
       (bgm_id: number): ItemIdentity => ({ bgm_id, category: "person" }),
     );
-    itemLoader.addItems(fakeIds);
+    itemLoader.addItems(idens);
     itemLoader.kickOff();
 
     console.log("aa");
   });
-  $inspect(itemLoader.isDone);
 </script>
 
 <div
