@@ -10,8 +10,6 @@
   import _ from "lodash";
   import type { ItemData, ItemIdentity } from "$lib/schemas/item";
 
-  // let { data }: PageProps = $props();
-
   // --- Tier State ---
   let tierLevel1 = $state([]);
   let tierLevel2 = $state([]);
@@ -22,15 +20,13 @@
   // --- Inventory State ---
   // We keep a local state for the UI so dndzone can mutate it temporarily during drags.
   let tierItems = $state<ItemData[]>([]);
-
   // Track IDs that have been added to the UI list to prevent duplicates
   // and to ensure items dragged OUT of the list don't bounce back in.
   const addedToUi = $state(new Set<string>());
 
   // SYNC: Watch the store and only append *new* items.
   $effect(() => {
-    let allLoaded = itemLoader.loadedItems;
-
+    let allLoaded = itemLoader.items;
     for (const item of allLoaded) {
       // If this item hasn't been seen by our UI list yet...
       if (!addedToUi.has(item.id)) {
@@ -40,11 +36,9 @@
     }
   });
 
-  // --- Infinite Scroll Handlers ---
-
   const loadMore = () => {
     itemLoader.kickOff();
-    console.log("haha");
+    console.log("loadMore");
   };
 
   // --- Sidebar State ---
@@ -52,18 +46,6 @@
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
   }
-  $inspect(itemLoader.loadedItems);
-  // --- Test DATA  ---
-  onMount(() => {
-    // 1. Queue up 39 real valid items
-    const idens = _.range(1, 40).map(
-      (bgm_id: number): ItemIdentity => ({ bgm_id, category: "person" }),
-    );
-    itemLoader.addItems(idens);
-    itemLoader.kickOff();
-
-    console.log("aa");
-  });
 </script>
 
 <div
@@ -129,8 +111,8 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
-        bind:items={itemLoader.loadedItems}
-        isGoingToLoad={false}
+        bind:items={tierItems}
+        isGoingToLoad={!itemLoader.isDone}
         {loadMore}
       />
     </div>
