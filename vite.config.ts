@@ -8,6 +8,7 @@ import { enhancedImages } from "@sveltejs/enhanced-img";
 
 export default defineConfig({
   plugins: [
+    enhancedImages(),
     tailwindcss(),
     sveltekit(),
     devtoolsJson(),
@@ -15,7 +16,6 @@ export default defineConfig({
       project: "./project.inlang",
       outdir: "./src/lib/paraglide",
     }),
-    enhancedImages(),
   ],
 
   test: {

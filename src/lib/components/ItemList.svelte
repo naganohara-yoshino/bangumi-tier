@@ -3,8 +3,8 @@
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
-  import type { Item } from "$lib/schemas/item";
   import { m } from "$lib/paraglide/messages";
+  import type { ItemData } from "$lib/schemas/item";
 
   let {
     items = $bindable(),
@@ -13,7 +13,7 @@
     loadMore = async () => {},
     total,
   }: {
-    items: Item[];
+    items: ItemData[];
     title?: string;
     isGoingToLoad: boolean;
     loadMore: () => void | Promise<void>;
@@ -35,9 +35,7 @@
   const hazardPattern = `background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 10px); background-size: 16px 16px;`;
 </script>
 
-<div
-  class="flex h-full w-full flex-col border-4 border-border bg-card shadow-[8px_8px_0px_0px_var(--color-border)]"
->
+<div class="neo-panel flex h-full w-full flex-col">
   <!-- Header -->
   <div
     class="flex shrink-0 items-center justify-between border-b-4 border-border bg-primary px-4 py-3 text-primary-foreground"
@@ -110,7 +108,7 @@
     >
       {#each items as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }}>
-          <ItemCard {item} />
+          <ItemCard name={item.name} image={item.image} />
         </div>
       {/each}
     </section>
