@@ -24,7 +24,7 @@
   - shadow uses var(--color-border) for visibility in dark mode
 -->
 <div
-  class="group mb-2 flex w-full border-4 border-border bg-card text-foreground shadow-[5px_5px_0px_0px_var(--color-border)] transition-shadow duration-200 hover:shadow-[5px_5px_0px_0px_var(--tier-color)]"
+  class="neo-panel group mb-2 flex w-full transition-shadow duration-200 hover:shadow-[8px_8px_0px_0px_var(--tier-color)]"
   style="--tier-color: {color}"
 >
   <!-- Title -->

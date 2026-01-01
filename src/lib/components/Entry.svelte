@@ -21,39 +21,9 @@
   let initialUsername: string | undefined = $state();
 
   const id = $props.id();
-
-  // --- Neo-Brutalist Styles ---
-
-  // 1. Input Fields
-  // - rounded-none: Sharp edges
-  // - border-2: Hard outline
-  // - shadow-[...var(--color-border)]: Hard default shadow
-  // - focus:shadow-[...var(--color-accent)]: Neon shadow on interaction
-  const inputClass =
-    "h-12 rounded-none border-2 border-border bg-card font-mono placeholder:text-muted-foreground/50 shadow-[4px_4px_0px_0px_var(--color-border)] transition-all duration-200 focus-visible:ring-0 focus-visible:translate-x-[-2px] focus-visible:translate-y-[-2px] focus-visible:shadow-[6px_6px_0px_0px_var(--color-accent)] hover:shadow-[4px_4px_0px_0px_var(--color-accent)]";
-
-  // 2. Primary Buttons (Action)
-  // - Active state: Moves the button DOWN-RIGHT by 4px and removes shadow.
-  //   This simulates pressing it flat against the page.
-  const btnPrimaryClass =
-    "h-12 w-full rounded-none border-2 border-border bg-primary text-xl font-black uppercase text-primary-foreground shadow-[4px_4px_0px_0px_var(--color-border)] transition-all duration-100 hover:bg-primary/90 hover:shadow-[4px_4px_0px_0px_var(--color-accent)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none";
-
-  // 3. Secondary Buttons (Outline)
-  const btnOutlineClass =
-    "h-12 w-full rounded-none border-2 border-border bg-card text-lg font-bold uppercase text-foreground shadow-[4px_4px_0px_0px_var(--color-border)] transition-all duration-100 hover:bg-accent hover:text-accent-foreground hover:shadow-[4px_4px_0px_0px_var(--color-accent)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none";
-
-  // 4. Icon Buttons (Small)
-  const btnIconClass =
-    "h-12 w-12 rounded-none border-2 border-border bg-accent text-accent-foreground shadow-[4px_4px_0px_0px_var(--color-border)] transition-all hover:bg-accent/80 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none";
 </script>
 
-<div
-  class={cn(
-    "flex flex-col gap-6 border-4 border-border bg-card p-6 shadow-[8px_8px_0px_0px_var(--color-border)]",
-    className,
-  )}
-  {...restProps}
->
+<div class={cn("flex flex-col gap-6 neo-panel p-6", className)} {...restProps}>
   <Field.Group>
     <!-- Header Section -->
     <div class="flex flex-col items-center gap-2 text-center">
@@ -70,13 +40,13 @@
     <!-- Quick Actions -->
     <Field.Field>
       <div class="flex flex-col gap-3">
-        <Button class={btnOutlineClass} type="button" onclick={gotoStudio}>
+        <Button class="neo-btn-outline" type="button" onclick={gotoStudio}>
           {m.anime_studios()}
         </Button>
-        <Button class={btnOutlineClass} type="button" onclick={gotoDerector}>
+        <Button class="neo-btn-outline" type="button" onclick={gotoDerector}>
           {m.anime_director()}
         </Button>
-        <Button class={btnOutlineClass} type="button" onclick={gotoSeasonal}>
+        <Button class="neo-btn-outline" type="button" onclick={gotoSeasonal}>
           {m.seasonal_anime()}
         </Button>
       </div>
@@ -117,13 +87,13 @@
         <Input
           id="index-{id}"
           type="text"
-          class={inputClass}
+          class="neo-input"
           placeholder="86319"
           bind:value={initialIndexId}
         />
         <Button
           size="icon"
-          class={btnIconClass}
+          class="neo-btn-icon-action"
           onclick={() => {
             if (initialIndexId !== undefined) {
               addIndexAndGoto(initialIndexId);
@@ -157,13 +127,13 @@
         <Input
           id="bgm_username-{id}"
           type="text"
-          class={inputClass}
+          class="neo-input"
           placeholder="sai"
           bind:value={initialUsername}
         />
         <Button
           size="icon"
-          class={btnIconClass}
+          class="neo-btn-icon-action"
           onclick={() => {
             if (initialUsername !== undefined) {
               gotoUserCollection(initialUsername);

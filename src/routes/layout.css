@@ -22,6 +22,7 @@
   --accent-foreground: oklch(0.1 0 0);
 
   --muted: oklch(0.96 0.01 96);
+  --muted-foreground: oklch(0.55 0 0);
   --border: oklch(0 0 0); /* Black */
 
   /* VIVID TIERS */
@@ -46,6 +47,7 @@
   --accent-foreground: oklch(0.95 0 0);
 
   --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.7 0 0);
   --border: oklch(0.95 0 0); /* White */
 
   --chart-1: oklch(0.65 0.25 20);
@@ -65,6 +67,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -104,5 +108,61 @@
 
   .scrollbar-brutal::-webkit-scrollbar-thumb:hover {
     background-color: var(--chart-2); /* Interaction Pop */
+  }
+
+  /* Neo-Brutalism Utilities */
+
+  /* Inputs */
+  .neo-input {
+    @apply h-12 rounded-none border-2 border-border bg-card font-mono shadow-[4px_4px_0px_0px_var(--color-border)] transition-all duration-200 focus-visible:ring-0 focus-visible:-translate-x-0.5 focus-visible:-translate-y-0.5 focus-visible:shadow-[6px_6px_0px_0px_var(--color-accent)] hover:shadow-[4px_4px_0px_0px_var(--color-accent)];
+  }
+  .neo-input::placeholder {
+    @apply text-muted-foreground/50;
+  }
+
+  /* Base Button */
+  /* Base Button (Standalone) */
+  .neo-btn {
+    @apply rounded-none border-2 border-border transition-all duration-100 active:translate-x-1 active:translate-y-1 active:shadow-none;
+  }
+
+  /* Primary Button (Action) */
+  .neo-btn-primary {
+    @apply h-12 w-full rounded-none border-2 border-border bg-primary text-xl font-black uppercase text-primary-foreground shadow-[4px_4px_0px_0px_var(--color-border)] transition-all duration-100 hover:bg-primary/90 hover:shadow-[4px_4px_0px_0px_var(--color-accent)] active:translate-x-1 active:translate-y-1 active:shadow-none;
+  }
+
+  /* Secondary/Outline Button */
+  .neo-btn-outline {
+    @apply h-12 w-full rounded-none border-2 border-border bg-card text-lg font-bold uppercase text-foreground shadow-[4px_4px_0px_0px_var(--color-border)] transition-all duration-100 hover:bg-accent hover:text-accent-foreground hover:shadow-[4px_4px_0px_0px_var(--color-accent)] active:translate-x-1 active:translate-y-1 active:shadow-none;
+  }
+
+  /* Icon Button Base (Standalone) */
+  .neo-btn-icon-base {
+    @apply rounded-none border-2 border-border transition-all duration-200 active:translate-y-0 active:shadow-none;
+  }
+
+  /* Icon Button (Action Variant - like Entry arrow) */
+  .neo-btn-icon-action {
+    @apply h-12 w-12 rounded-none border-2 border-border bg-accent text-accent-foreground shadow-[4px_4px_0px_0px_var(--color-border)] transition-all active:translate-x-1 active:translate-y-1 active:shadow-none hover:bg-accent/80;
+  }
+
+  /* Icon Button (Ghost Variant - like Theme/Sidebar toggles) */
+  .neo-btn-icon-ghost {
+    @apply relative h-10 w-10 rounded-none border-2 border-border bg-card text-foreground transition-all duration-200 active:translate-y-0 active:shadow-none hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--color-accent)];
+  }
+
+  /* Panels / Cards */
+  .neo-panel {
+    @apply border-4 border-border bg-card shadow-[8px_8px_0px_0px_var(--color-border)];
+  }
+
+  /* Dropdown Content */
+  .neo-dropdown-content {
+    @apply rounded-none border-2 border-border bg-card p-0 shadow-[4px_4px_0px_0px_var(--color-border)];
+  }
+
+  /* Dropdown Item */
+  .neo-dropdown-item {
+    @apply cursor-pointer rounded-none font-mono font-bold uppercase focus:bg-primary focus:text-primary-foreground;
   }
 }

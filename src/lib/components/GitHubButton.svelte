@@ -5,7 +5,7 @@
 <Button
   variant="ghost"
   size="icon"
-  class="relative h-10 w-10 rounded-none border-2 border-border bg-card text-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--color-accent)] active:translate-y-0 active:shadow-none"
+  class="neo-btn-icon-ghost"
   href="https://github.com/naganohara-yoshino/bangumi-tier"
   target="_blank"
 >
