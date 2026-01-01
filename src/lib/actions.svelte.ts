@@ -6,7 +6,6 @@ import type { components } from "$lib/schemas/bgm-public-api";
 import { DateTime } from "luxon";
 import type { ItemData } from "$lib/schemas/item";
 import { fetchUserCollection } from "./api/bgmFetchers.svelte";
-import { it } from "vitest";
 
 type SubjectCollected = components["schemas"]["UserSubjectCollection"];
 
