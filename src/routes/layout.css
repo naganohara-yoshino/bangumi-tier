@@ -161,6 +161,11 @@
     @apply rounded-none border-2 border-border bg-card p-0 shadow-[4px_4px_0px_0px_var(--color-border)];
   }
 
+  /* Popover Content */
+  .neo-popover-content {
+    @apply rounded-none border-2 border-border bg-card shadow-[4px_4px_0px_0px_var(--color-border)];
+  }
+
   /* Dropdown Item */
   .neo-dropdown-item {
     @apply cursor-pointer rounded-none font-mono font-bold uppercase focus:bg-primary focus:text-primary-foreground;

@@ -2,6 +2,7 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Field from "$lib/components/ui/field/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
+  import * as Popover from "$lib/components/ui/popover/index.js";
   import { cn } from "$lib/utils.js";
   import { m } from "$lib/paraglide/messages.js";
   import type { HTMLAttributes } from "svelte/elements";
@@ -76,7 +77,8 @@
           Bgm {m.index()} Id
         </Field.Label>
         <a
-          href="##"
+          href="https://bgm.tv/index"
+          target="_blank"
           class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
         >
           {m.index_plaza()}
@@ -116,12 +118,18 @@
         >
           {m.collection()}
         </Field.Label>
-        <a
-          href="##"
-          class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
-        >
-          {m.find_your_username()}
-        </a>
+        <Popover.Root>
+          <Popover.Trigger
+            class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
+          >
+            {m.find_your_username()}
+          </Popover.Trigger>
+          <Popover.Content class="neo-popover-content w-70 p-4">
+            <p class="font-mono text-sm font-semibold text-wrap">
+              {m.username_instruction()}
+            </p>
+          </Popover.Content>
+        </Popover.Root>
       </div>
       <div class="flex gap-3">
         <Input
