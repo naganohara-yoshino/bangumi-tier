@@ -169,7 +169,7 @@
           for="bgm_username-{id}"
           class="font-mono text-sm font-bold uppercase"
         >
-          {m.collection()}
+          {m.collection_recap()}
         </Field.Label>
         <Popover.Root>
           <Popover.Trigger
