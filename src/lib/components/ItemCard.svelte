@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Item } from "$lib/schemas/item";
-  let { item }: { item: Item } = $props();
+  let { name, image } = $props();
+  image = image ?? "https://lain.bgm.tv/img/no_icon_subject.png";
 </script>
 
 <div
@@ -10,8 +10,8 @@
     class="relative w-full flex-grow overflow-hidden border-b-2 border-border bg-muted"
   >
     <img
-      src={item.image}
-      alt={item.name}
+      src={image}
+      alt={name}
       draggable="false"
       class="absolute inset-0 h-full w-full object-cover object-top"
     />
@@ -22,9 +22,9 @@
   >
     <span
       class="truncate px-1 font-mono text-[9px] font-bold uppercase leading-none tracking-tight text-foreground"
-      title={item.name}
+      title={name}
     >
-      {item.name}
+      {name}
     </span>
   </div>
 </div>

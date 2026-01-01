@@ -3,8 +3,8 @@
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
-  import type { Item } from "$lib/schemas/item";
   import { m } from "$lib/paraglide/messages";
+  import type { ItemData } from "$lib/schemas/item";
 
   let {
     items = $bindable(),
@@ -13,7 +13,7 @@
     loadMore = async () => {},
     total,
   }: {
-    items: Item[];
+    items: ItemData[];
     title?: string;
     isGoingToLoad: boolean;
     loadMore: () => void | Promise<void>;
@@ -108,7 +108,7 @@
     >
       {#each items as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }}>
-          <ItemCard {item} />
+          <ItemCard name={item.name} image={item.image} />
         </div>
       {/each}
     </section>
