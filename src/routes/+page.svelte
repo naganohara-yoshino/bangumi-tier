@@ -1,7 +1,7 @@
 <script lang="ts">
     import Entry from "$lib/components/Entry.svelte";
-    import coverImage from "$lib/assets/cover.jpg";
-    import coverImageNight from "$lib/assets/cover-night.jpg";
+    import coverImage from "$lib/assets/cover.jpg?enhanced";
+    import coverImageNight from "$lib/assets/cover-night.jpg?enhanced";
 
     import GitHubButton from "$lib/components/GitHubButton.svelte";
     import LanguageSwitch from "$lib/components/control/LanguageSwitch.svelte";
