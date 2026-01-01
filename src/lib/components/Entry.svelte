@@ -3,12 +3,22 @@
   import * as Field from "$lib/components/ui/field/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { cn } from "$lib/utils.js";
+  import { m } from "$lib/paraglide/messages.js";
   import type { HTMLAttributes } from "svelte/elements";
+  import { addIndexAndGoto } from "$lib/actions.svelte";
 
   let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> =
     $props();
 
+  let initialIndexId: number | undefined = $state();
+
+  let initialUsername: string | undefined = $state();
+
   const id = $props.id();
+
+  const ANIME_STUDIOS_INDEX_ID = 86940;
+
+  const SEASONAL_ANIME_INDEX_ID = 83397;
 
   // --- Neo-Brutalist Styles ---
 
@@ -46,10 +56,10 @@
     <!-- Header Section -->
     <div class="flex flex-col items-center gap-2 text-center">
       <h1 class="font-mono text-4xl font-black uppercase tracking-tighter">
-        Welcome
+        {m.welcome()}
       </h1>
       <p class="text-sm font-bold uppercase text-muted-foreground">
-        Make custom tier of ...
+        {m.app_description()}
       </p>
     </div>
 
@@ -58,8 +68,24 @@
     <!-- Quick Actions -->
     <Field.Field>
       <div class="flex flex-col gap-3">
-        <Button class={btnOutlineClass} type="button">Anime Studios</Button>
-        <Button class={btnOutlineClass} type="button">Animes</Button>
+        <Button
+          class={btnOutlineClass}
+          type="button"
+          onclick={() => {
+            addIndexAndGoto(ANIME_STUDIOS_INDEX_ID);
+          }}
+        >
+          Anime Studios
+        </Button>
+        <Button
+          class={btnOutlineClass}
+          type="button"
+          onclick={() => {
+            addIndexAndGoto(SEASONAL_ANIME_INDEX_ID);
+          }}
+        >
+          Seasonal Anime
+        </Button>
       </div>
     </Field.Field>
 
@@ -99,9 +125,18 @@
           id="index-{id}"
           type="text"
           class={inputClass}
-          placeholder="12345..."
+          placeholder="86319"
+          bind:value={initialIndexId}
         />
-        <Button size="icon" class={btnIconClass}>
+        <Button
+          size="icon"
+          class={btnIconClass}
+          onclick={() => {
+            if (initialIndexId !== undefined) {
+              addIndexAndGoto(initialIndexId);
+            }
+          }}
+        >
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
         </Button>
       </div>
@@ -122,7 +157,7 @@
           href="##"
           class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
         >
-          Find ID
+          Find your username.
         </a>
       </div>
       <div class="flex gap-3">
@@ -130,7 +165,8 @@
           id="bgm_username-{id}"
           type="text"
           class={inputClass}
-          placeholder="username"
+          placeholder="sai"
+          bind:value={initialUsername}
         />
         <Button size="icon" class={btnIconClass}>
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>

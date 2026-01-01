@@ -3,7 +3,6 @@
     import coverImage from "$lib/assets/cover.jpg";
     import coverImageNight from "$lib/assets/cover-night.jpg";
 
-    // Independent controls
     import GitHubButton from "$lib/components/GitHubButton.svelte";
     import LanguageSwitch from "$lib/components/control/LanguageSwitch.svelte";
     import ThemeToggle from "$lib/components/control/ThemeToggle.svelte";

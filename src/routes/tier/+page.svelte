@@ -1,21 +1,47 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import ItemList from "$lib/components/ItemList.svelte";
   import TierBar from "$lib/components/TierBar.svelte";
-  import UtilBar from "$lib/components/UtilBar.svelte"; // Renamed import
-  import type { PageProps } from "./$types";
+  import UtilBar from "$lib/components/UtilBar.svelte";
 
-  let { data }: PageProps = $props();
+  // Global State
+  import { itemLoader } from "$lib/batchLoader.svelte";
+  import _ from "lodash";
+  import type { ItemData, ItemIdentity } from "$lib/schemas/item";
 
+  // --- Tier State ---
   let tierLevel1 = $state([]);
   let tierLevel2 = $state([]);
   let tierLevel3 = $state([]);
   let tierLevel4 = $state([]);
   let tierLevel5 = $state([]);
 
-  // svelte-ignore state_referenced_locally
-  let tierItems = $state(data.items);
+  // --- Inventory State ---
+  // We keep a local state for the UI so dndzone can mutate it temporarily during drags.
+  let tierItems = $state<ItemData[]>([]);
+  // Track IDs that have been added to the UI list to prevent duplicates
+  // and to ensure items dragged OUT of the list don't bounce back in.
+  const addedToUi = $state(new Set<string>());
 
-  // Sidebar State
+  // SYNC: Watch the store and only append *new* items.
+  $effect(() => {
+    let allLoaded = itemLoader.items;
+    for (const item of allLoaded) {
+      // If this item hasn't been seen by our UI list yet...
+      if (!addedToUi.has(item.id)) {
+        tierItems.push(item);
+        addedToUi.add(item.id);
+      }
+    }
+  });
+
+  const loadMore = () => {
+    itemLoader.kickOff();
+    console.log("loadMore");
+  };
+
+  // --- Sidebar State ---
   let isSidebarOpen = $state(true);
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
@@ -32,10 +58,6 @@
   ></div>
 
   <!-- Left Panel (Tiers) -->
-  <!-- 
-    Logic: When sidebar is closed (!isSidebarOpen), this panel should grow to take full space.
-    The 'flex-1' class already handles this automatically as long as the other panel disappears.
-  -->
   <main
     class="scrollbar-brutal relative z-10 flex flex-1 flex-col overflow-y-auto p-4 lg:p-10"
   >
@@ -66,7 +88,6 @@
 
       <!-- UtilBar -->
       <div class="shrink-0">
-        <!-- Pass the toggle handler and state -->
         <UtilBar onToggleSidebar={toggleSidebar} {isSidebarOpen} />
       </div>
     </header>
@@ -80,13 +101,7 @@
     </div>
   </main>
 
-  <!-- 
-    Right Panel (ItemList) 
-    Transition Logic:
-    1. We keep the DOM element but collapse width/height to 0.
-    2. overflow-hidden is crucial to hide content during collapse.
-    3. transition-all duration-300 makes the snap smooth.
-  -->
+  <!-- Right Panel (ItemList) -->
   <aside
     class="relative z-20 flex flex-col border-border bg-background transition-all duration-300 ease-in-out overflow-hidden
     {isSidebarOpen
@@ -94,12 +109,12 @@
       : 'border-0 p-0'}
     {isSidebarOpen ? 'h-[45%] lg:h-full lg:w-[420px]' : 'h-0 lg:h-full lg:w-0'}"
   >
-    <!-- 
-      We wrap the content in a fixed width div (on desktop) so the content 
-      doesn't squish while the panel width shrinks. 
-    -->
     <div class="h-full w-full min-w-[300px]">
-      <ItemList bind:items={tierItems} title="Collection" />
+      <ItemList
+        bind:items={tierItems}
+        isGoingToLoad={!itemLoader.isDone}
+        {loadMore}
+      />
     </div>
   </aside>
 </div>
