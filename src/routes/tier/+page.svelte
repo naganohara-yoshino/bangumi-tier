@@ -92,7 +92,7 @@
       </div>
     </header>
 
-    <div class="flex flex-col gap-4 pb-10">
+    <div class="flex flex-col gap-1 md:gap-2 pb-10">
       <TierBar title="S" color="var(--chart-1)" bind:items={tierLevel1} />
       <TierBar title="A" color="var(--chart-2)" bind:items={tierLevel2} />
       <TierBar title="B" color="var(--chart-3)" bind:items={tierLevel3} />
