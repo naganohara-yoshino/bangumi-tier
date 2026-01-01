@@ -2,6 +2,7 @@
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
+  import { m } from "$lib/paraglide/messages";
 
   let { items = $bindable(), title = "A", color = "var(--chart-2)" } = $props();
 
@@ -50,7 +51,7 @@
         class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-30"
       >
         <span class="font-mono text-xl font-bold uppercase text-foreground"
-          >Drop Here</span
+          >{m.drop_here()}</span
         >
       </div>
     {/if}
