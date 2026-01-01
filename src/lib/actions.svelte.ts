@@ -67,8 +67,7 @@ export async function gotoUserCollection(username: string) {
   const collectionYear = (await fetchUserCollection(username)).filter((subj) =>
     isDoneInYear(subj, YEAR),
   );
-  const items = collectionYear.map((subj) => subjectToItem(subj));
-  itemLoader.addItems(items);
-  // await itemLoader.loadBatch();
+  const items = collectionYear.map(subjectToItem);
+  itemLoader.loadedItems.push(...items);
   goto(resolve("/tier"));
 }

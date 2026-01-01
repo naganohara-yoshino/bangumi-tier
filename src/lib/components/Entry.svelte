@@ -160,14 +160,16 @@
           class={inputClass}
           placeholder="sai"
           bind:value={initialUsername}
+        />
+        <Button
+          size="icon"
+          class={btnIconClass}
           onclick={() => {
             if (initialUsername !== undefined) {
-              alert(initialUsername);
               gotoUserCollection(initialUsername);
             }
           }}
-        />
-        <Button size="icon" class={btnIconClass}>
+        >
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
         </Button>
       </div>
