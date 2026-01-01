@@ -91,7 +91,7 @@
         <span
           class="hidden md:block mt-2 rotate-2 border-2 border-border bg-accent px-2 py-1 text-xs font-bold text-accent-foreground shadow-[2px_2px_0px_0px_var(--color-border)] lg:mt-0"
         >
-          VER 0.1.0
+          VER 1.0.0
         </span>
       </div>
 
