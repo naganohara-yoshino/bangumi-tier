@@ -26,7 +26,7 @@
 
   // SYNC: Watch the store and only append *new* items.
   $effect(() => {
-    let allLoaded = itemLoader.items;
+    let allLoaded = itemLoader.loadedItems;
     for (const item of allLoaded) {
       // If this item hasn't been seen by our UI list yet...
       if (!addedToUi.has(item.id)) {
@@ -37,7 +37,7 @@
   });
 
   const loadMore = () => {
-    itemLoader.kickOff();
+    itemLoader.loadBatch();
     console.log("loadMore");
   };
 

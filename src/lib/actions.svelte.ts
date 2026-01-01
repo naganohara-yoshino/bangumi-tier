@@ -7,7 +7,7 @@ export async function addIndexAndGoto(index_id: number) {
   const itemIdentities = await fetchIndexById(index_id);
   if (itemIdentities !== undefined) {
     itemLoader.addItems(itemIdentities);
-    itemLoader.kickOff();
+    itemLoader.loadBatch();
   }
   goto(resolve("/tier"));
 }
