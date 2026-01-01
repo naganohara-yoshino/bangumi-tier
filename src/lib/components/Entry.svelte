@@ -5,7 +5,13 @@
   import { cn } from "$lib/utils.js";
   import { m } from "$lib/paraglide/messages.js";
   import type { HTMLAttributes } from "svelte/elements";
-  import { addIndexAndGoto } from "$lib/actions.svelte";
+  import {
+    addIndexAndGoto,
+    gotoDerector,
+    gotoStudio,
+    gotoSeasonal,
+    gotoUserCollection,
+  } from "$lib/actions.svelte";
 
   let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> =
     $props();
@@ -15,10 +21,6 @@
   let initialUsername: string | undefined = $state();
 
   const id = $props.id();
-
-  const ANIME_STUDIOS_INDEX_ID = 86940;
-
-  const SEASONAL_ANIME_INDEX_ID = 83397;
 
   // --- Neo-Brutalist Styles ---
 
@@ -68,23 +70,14 @@
     <!-- Quick Actions -->
     <Field.Field>
       <div class="flex flex-col gap-3">
-        <Button
-          class={btnOutlineClass}
-          type="button"
-          onclick={() => {
-            addIndexAndGoto(ANIME_STUDIOS_INDEX_ID);
-          }}
-        >
+        <Button class={btnOutlineClass} type="button" onclick={gotoStudio}>
           Anime Studios
         </Button>
-        <Button
-          class={btnOutlineClass}
-          type="button"
-          onclick={() => {
-            addIndexAndGoto(SEASONAL_ANIME_INDEX_ID);
-          }}
-        >
+        <Button class={btnOutlineClass} type="button" onclick={gotoSeasonal}>
           Seasonal Anime
+        </Button>
+        <Button class={btnOutlineClass} type="button" onclick={gotoDerector}>
+          Anime Directors
         </Button>
       </div>
     </Field.Field>
@@ -167,6 +160,12 @@
           class={inputClass}
           placeholder="sai"
           bind:value={initialUsername}
+          onclick={() => {
+            if (initialUsername !== undefined) {
+              alert(initialUsername);
+              gotoUserCollection(initialUsername);
+            }
+          }}
         />
         <Button size="icon" class={btnIconClass}>
           <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>

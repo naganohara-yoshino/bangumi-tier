@@ -6,7 +6,7 @@
   import UtilBar from "$lib/components/UtilBar.svelte";
 
   // Global State
-  import { itemLoader } from "$lib/batchLoader.svelte";
+  import { itemLoader } from "$lib/itemBatchLoader.svelte";
   import _ from "lodash";
   import type { ItemData, ItemIdentity } from "$lib/schemas/item";
 
@@ -38,7 +38,7 @@
 
   const loadMore = () => {
     itemLoader.loadBatch();
-    console.log("loadMore");
+    // console.log("loadMore");
   };
 
   // --- Sidebar State ---
