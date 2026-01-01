@@ -30,13 +30,13 @@
         onclick={() => setLocale("zh")}
         class="neo-dropdown-item"
       >
-        Chinese
+        中文
       </DropdownMenu.Item>
       <DropdownMenu.Item
         onclick={() => setLocale("ja")}
         class="neo-dropdown-item"
       >
-        Japanese
+        日本語
       </DropdownMenu.Item>
     </DropdownMenu.Group>
   </DropdownMenu.Content>
