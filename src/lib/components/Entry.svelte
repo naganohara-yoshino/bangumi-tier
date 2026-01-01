@@ -18,8 +18,14 @@
     $props();
 
   let initialIndexId: number | undefined = $state();
+  let isIndexLoading = $state(false);
 
   let initialUsername: string | undefined = $state();
+  let isUsernameLoading = $state(false);
+
+  let isStudioLoading = $state(false);
+  let isDirectorLoading = $state(false);
+  let isSeasonalLoading = $state(false);
 
   const id = $props.id();
 </script>
@@ -41,20 +47,62 @@
     <!-- Quick Actions -->
     <Field.Field>
       <div class="flex flex-col gap-3">
-        <Button class="neo-btn-outline" type="button" onclick={gotoStudio}>
-          {m.anime_studios()}
+        <Button
+          class="neo-btn-outline"
+          type="button"
+          onclick={() => {
+            isStudioLoading = true;
+            gotoStudio();
+          }}
+        >
+          <span class="relative">
+            {m.anime_studios()}
+            {#if isStudioLoading}
+              <span
+                class="icon-[line-md--loading-loop] absolute left-full ml-2 h-6 w-6"
+              ></span>
+            {/if}
+          </span>
         </Button>
-        <Button class="neo-btn-outline" type="button" onclick={gotoDerector}>
-          {m.anime_director()}
+        <Button
+          class="neo-btn-outline"
+          type="button"
+          onclick={() => {
+            isDirectorLoading = true;
+            gotoDerector();
+          }}
+        >
+          <span class="relative">
+            {m.anime_director()}
+            {#if isDirectorLoading}
+              <span
+                class="icon-[line-md--loading-loop] absolute left-full ml-2 h-6 w-6"
+              ></span>
+            {/if}
+          </span>
         </Button>
-        <Button class="neo-btn-outline" type="button" onclick={gotoSeasonal}>
-          {m.seasonal_anime()}
+        <Button
+          class="neo-btn-outline"
+          type="button"
+          onclick={() => {
+            isSeasonalLoading = true;
+            gotoSeasonal();
+          }}
+        >
+          <span class="relative">
+            {m.seasonal_anime()}
+            {#if isSeasonalLoading}
+              <span
+                class="icon-[line-md--loading-loop] absolute left-full ml-2 h-6 w-6"
+              ></span>
+            {/if}
+          </span>
         </Button>
       </div>
     </Field.Field>
 
     <!-- Divider with Text -->
-    <div class="relative my-4 text-center">
+    <div class="relative my-2 text-center">
       <div class="absolute inset-0 flex items-center">
         <span class="w-full border-t-2 border-border"></span>
       </div>
@@ -69,7 +117,7 @@
 
     <!-- BGM Index ID Input -->
     <Field.Field>
-      <div class="flex items-center mb-2">
+      <div class="flex items-center">
         <Field.Label
           for="index-{id}"
           class="font-mono text-sm font-bold uppercase"
@@ -85,7 +133,16 @@
         </a>
       </div>
 
-      <div class="flex gap-3">
+      <form
+        class="flex gap-3"
+        onsubmit={(e) => {
+          e.preventDefault();
+          if (initialIndexId !== undefined) {
+            isIndexLoading = true;
+            addIndexAndGoto(initialIndexId);
+          }
+        }}
+      >
         <Input
           id="index-{id}"
           type="text"
@@ -93,25 +150,21 @@
           placeholder="86319"
           bind:value={initialIndexId}
         />
-        <Button
-          size="icon"
-          class="neo-btn-icon-action"
-          onclick={() => {
-            if (initialIndexId !== undefined) {
-              addIndexAndGoto(initialIndexId);
-            }
-          }}
-        >
-          <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
+        <Button size="icon" class="neo-btn-icon-action" type="submit">
+          {#if isIndexLoading}
+            <span class="icon-[line-md--loading-loop] h-6 w-6"></span>
+          {:else}
+            <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
+          {/if}
         </Button>
-      </div>
+      </form>
     </Field.Field>
 
-    <div class="my-4 h-1 w-full border-b-2 border-border"></div>
+    <div class="my-2 h-1 w-full border-b-2 border-border"></div>
 
     <!-- User Collection Input -->
     <Field.Field>
-      <div class="flex items-center mb-2">
+      <div class="flex items-center">
         <Field.Label
           for="bgm_username-{id}"
           class="font-mono text-sm font-bold uppercase"
@@ -131,7 +184,17 @@
           </Popover.Content>
         </Popover.Root>
       </div>
-      <div class="flex gap-3">
+
+      <form
+        class="flex gap-3"
+        onsubmit={(e) => {
+          e.preventDefault();
+          if (initialUsername !== undefined) {
+            isUsernameLoading = true;
+            gotoUserCollection(initialUsername);
+          }
+        }}
+      >
         <Input
           id="bgm_username-{id}"
           type="text"
@@ -139,18 +202,14 @@
           placeholder="sai"
           bind:value={initialUsername}
         />
-        <Button
-          size="icon"
-          class="neo-btn-icon-action"
-          onclick={() => {
-            if (initialUsername !== undefined) {
-              gotoUserCollection(initialUsername);
-            }
-          }}
-        >
-          <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
+        <Button size="icon" class="neo-btn-icon-action" type="submit">
+          {#if isUsernameLoading}
+            <span class="icon-[line-md--loading-loop] h-6 w-6"></span>
+          {:else}
+            <span class="icon-[lucide--arrow-up-right] h-6 w-6"></span>
+          {/if}
         </Button>
-      </div>
+      </form>
       <Field.Description
         class="mt-2 text-xs font-bold uppercase text-muted-foreground"
       >
