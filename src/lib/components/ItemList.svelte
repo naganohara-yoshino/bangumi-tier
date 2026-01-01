@@ -48,7 +48,7 @@
       <div class="h-2 w-2 rounded-full bg-accent animate-pulse"></div>
       <span class="font-mono text-xs font-bold opacity-80">
         {#if total !== undefined}{total}{:else}{items.length}{/if}
-        INSIDE
+        IN
       </span>
     </div>
   </div>
