@@ -71,13 +71,13 @@
     <Field.Field>
       <div class="flex flex-col gap-3">
         <Button class={btnOutlineClass} type="button" onclick={gotoStudio}>
-          Anime Studios
-        </Button>
-        <Button class={btnOutlineClass} type="button" onclick={gotoSeasonal}>
-          Seasonal Anime
+          {m.anime_studios()}
         </Button>
         <Button class={btnOutlineClass} type="button" onclick={gotoDerector}>
-          Anime Directors
+          {m.anime_director()}
+        </Button>
+        <Button class={btnOutlineClass} type="button" onclick={gotoSeasonal}>
+          {m.seasonal_anime()}
         </Button>
       </div>
     </Field.Field>
@@ -91,7 +91,7 @@
         <span
           class="bg-card px-2 font-mono text-xs font-bold uppercase text-muted-foreground"
         >
-          Or proceed with
+          {m.or_proceed_with()}
         </span>
       </div>
     </div>
@@ -103,13 +103,13 @@
           for="index-{id}"
           class="font-mono text-sm font-bold uppercase"
         >
-          Bgm Index Id
+          Bgm {m.index()} Id
         </Field.Label>
         <a
           href="##"
           class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
         >
-          What is this?
+          {m.index_plaza()}
         </a>
       </div>
 
@@ -144,13 +144,13 @@
           for="bgm_username-{id}"
           class="font-mono text-sm font-bold uppercase"
         >
-          Collection
+          {m.collection()}
         </Field.Label>
         <a
           href="##"
           class="ms-auto text-xs font-bold underline decoration-2 underline-offset-4 hover:text-accent-foreground hover:bg-accent"
         >
-          Find your username.
+          {m.find_your_username()}
         </a>
       </div>
       <div class="flex gap-3">
@@ -176,7 +176,7 @@
       <Field.Description
         class="mt-2 text-xs font-bold uppercase text-muted-foreground"
       >
-        Your bgm username
+        {m.your_bgm_username()}
       </Field.Description>
     </Field.Field>
 
@@ -185,12 +185,12 @@
     <!-- Footer -->
     <Field.Field>
       <Field.Description class="text-center font-mono text-xs font-bold">
-        Don't have a bangumi account?
+        {m.no_account()}
         <a
           href="https://bgm.tv/signup"
           class="bg-foreground text-background px-1 hover:bg-accent hover:text-accent-foreground"
         >
-          Sign up
+          {m.sign_up()}
         </a>
       </Field.Description>
     </Field.Field>

@@ -4,6 +4,7 @@
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
   import type { Item } from "$lib/schemas/item";
+  import { m } from "$lib/paraglide/messages";
 
   let {
     items = $bindable(),
@@ -48,7 +49,7 @@
       <div class="h-2 w-2 rounded-full bg-accent animate-pulse"></div>
       <span class="font-mono text-xs font-bold opacity-80">
         {#if total !== undefined}{total}{:else}{items.length}{/if}
-        INSIDE
+        IN
       </span>
     </div>
   </div>
@@ -68,12 +69,12 @@
           class="absolute inset-0 z-0 flex flex-col items-center justify-center opacity-60"
         >
           <span class="font-mono text-4xl font-black uppercase text-foreground"
-            >EMPTY</span
+            >{m.EMPTY()}</span
           >
           <span
             class="mt-2 bg-foreground px-2 text-xs font-bold uppercase text-background"
           >
-            System Standby
+            {m.system_standby()}
           </span>
         </div>
       {:else}
@@ -84,7 +85,7 @@
             <span
               class="font-mono text-4xl font-black uppercase text-foreground"
             >
-              LOADING
+              {m.LOADING()}
             </span>
 
             <span
@@ -95,7 +96,7 @@
           <span
             class="mt-2 bg-foreground px-2 text-xs font-bold uppercase text-background"
           >
-            Please Wait
+            {m.please_wait()}
           </span>
         </div>
       {/if}
@@ -134,7 +135,7 @@
             class="flex items-center gap-2 text-foreground/40 font-mono text-[10px] font-bold tracking-widest uppercase"
           >
             <span>//</span>
-            <span>END_OF_STREAM</span>
+            <span>{m.END_OF_STREAM()}</span>
             <span>//</span>
           </div>
         {:else}
@@ -143,7 +144,7 @@
             class="flex items-center gap-2 text-foreground font-mono text-[10px] font-bold tracking-widest uppercase"
           >
             <span>[</span>
-            <span>FETCHING_DATA</span>
+            <span>{m.FETCHING_DATA()}</span>
             <span class="icon-[line-md--loading-twotone-loop]"></span>
             <span>]</span>
           </div>{/if}

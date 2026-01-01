@@ -9,6 +9,7 @@
   import { itemLoader } from "$lib/itemBatchLoader.svelte";
   import _ from "lodash";
   import type { ItemData, ItemIdentity } from "$lib/schemas/item";
+  import { m } from "$lib/paraglide/messages";
 
   // --- Tier State ---
   let tierLevel1 = $state([]);
@@ -92,12 +93,32 @@
       </div>
     </header>
 
-    <div class="flex flex-col gap-4 pb-10">
-      <TierBar title="S" color="var(--chart-1)" bind:items={tierLevel1} />
-      <TierBar title="A" color="var(--chart-2)" bind:items={tierLevel2} />
-      <TierBar title="B" color="var(--chart-3)" bind:items={tierLevel3} />
-      <TierBar title="C" color="var(--chart-4)" bind:items={tierLevel4} />
-      <TierBar title="D" color="var(--chart-5)" bind:items={tierLevel5} />
+    <div class="flex flex-col gap-1 md:gap-2 pb-10">
+      <TierBar
+        title={m.level_s()}
+        color="var(--chart-1)"
+        bind:items={tierLevel1}
+      />
+      <TierBar
+        title={m.level_a()}
+        color="var(--chart-2)"
+        bind:items={tierLevel2}
+      />
+      <TierBar
+        title={m.level_b()}
+        color="var(--chart-3)"
+        bind:items={tierLevel3}
+      />
+      <TierBar
+        title={m.level_c()}
+        color="var(--chart-4)"
+        bind:items={tierLevel4}
+      />
+      <TierBar
+        title={m.level_d()}
+        color="var(--chart-5)"
+        bind:items={tierLevel5}
+      />
     </div>
   </main>
 
