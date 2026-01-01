@@ -30,7 +30,7 @@
   const id = $props.id();
 </script>
 
-<div class={cn("flex flex-col gap-6 neo-panel p-6", className)} {...restProps}>
+<div class={cn("flex flex-col gap-4 neo-panel p-5", className)} {...restProps}>
   <Field.Group>
     <!-- Header Section -->
     <div class="flex flex-col items-center gap-2 text-center">
@@ -42,7 +42,7 @@
       </p>
     </div>
 
-    <div class="my-4 h-1 w-full border-b-2 border-dashed border-border"></div>
+    <div class="my-3 h-1 w-full border-b-2 border-dashed border-border"></div>
 
     <!-- Quick Actions -->
     <Field.Field>
@@ -102,7 +102,7 @@
     </Field.Field>
 
     <!-- Divider with Text -->
-    <div class="relative my-2 text-center">
+    <div class="relative mt-3 mb-1 text-center">
       <div class="absolute inset-0 flex items-center">
         <span class="w-full border-t-2 border-border"></span>
       </div>
@@ -160,7 +160,7 @@
       </form>
     </Field.Field>
 
-    <div class="my-2 h-1 w-full border-b-2 border-border"></div>
+    <div class="mt-3 mb-1 h-1 w-full border-b-2 border-border"></div>
 
     <!-- User Collection Input -->
     <Field.Field>
@@ -217,7 +217,7 @@
       </Field.Description>
     </Field.Field>
 
-    <div class="my-4 h-1 w-full border-b-2 border-border"></div>
+    <div class="my-3 h-1 w-full border-b-2 border-border"></div>
 
     <!-- Footer -->
     <Field.Field>
