@@ -2,13 +2,9 @@
   import { Button } from "$lib/components/ui/button/index.js";
 
   let { onclick, isOpen = true } = $props();
-
-  // Consistent Brutalist Button Style
-  const btnClass =
-    "relative h-10 w-10 rounded-none border-2 border-border bg-card text-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--color-accent)] active:translate-y-0 active:shadow-none";
 </script>
 
-<Button {onclick} variant="ghost" size="icon" class={btnClass}>
+<Button {onclick} variant="ghost" size="icon" class="neo-btn-icon-ghost">
   <!-- Mobile Icon: Bottom Drawer -->
   <!-- Rotates 180deg when closed to point "Up" (Open me) -->
   <span

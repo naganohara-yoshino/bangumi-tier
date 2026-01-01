@@ -2,6 +2,8 @@
   import { flip } from "svelte/animate";
   import { dndzone } from "svelte-dnd-action";
   import ItemCard from "$lib/components/ItemCard.svelte";
+  import { m } from "$lib/paraglide/messages";
+  import { cn } from "$lib/utils";
 
   let { items = $bindable(), title = "A", color = "var(--chart-2)" } = $props();
 
@@ -23,7 +25,10 @@
   - shadow uses var(--color-border) for visibility in dark mode
 -->
 <div
-  class="group mb-2 flex w-full border-4 border-border bg-card text-foreground shadow-[5px_5px_0px_0px_var(--color-border)] transition-shadow duration-200 hover:shadow-[5px_5px_0px_0px_var(--tier-color)]"
+  class={cn(
+    "shadow-[5px_5px_0px_0px_var(--color-border)] hover:shadow-[5px_5px_0px_0px_var(--tier-color)]",
+    "border-4 border-border bg-cards group mb-2 flex w-full transition-shadow duration-200",
+  )}
   style="--tier-color: {color}"
 >
   <!-- Title -->
@@ -50,7 +55,7 @@
         class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-30"
       >
         <span class="font-mono text-xl font-bold uppercase text-foreground"
-          >Drop Here</span
+          >{m.drop_here()}</span
         >
       </div>
     {/if}
@@ -63,7 +68,7 @@
     >
       {#each items as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }}>
-          <ItemCard {item} />
+          <ItemCard name={item.name} image={item.image} />
         </div>
       {/each}
     </section>
