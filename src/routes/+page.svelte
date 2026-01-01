@@ -8,6 +8,14 @@
     import ThemeToggle from "$lib/components/control/ThemeToggle.svelte";
 </script>
 
+<svelte:head>
+    <title>Home | Bangumi Tier</title>
+    <meta
+        name="description"
+        content="The ultimate tool to create and visualize your anime tier lists from Bangumi."
+    />
+</svelte:head>
+
 <div
     class="relative grid min-h-svh bg-background font-mono text-foreground lg:grid-cols-2"
 >

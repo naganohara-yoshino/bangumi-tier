@@ -49,6 +49,14 @@
   }
 </script>
 
+<svelte:head>
+  <title>Tier Editor | Bangumi Tier</title>
+  <meta
+    name="description"
+    content="Drag and drop to rank your animes and generate your personal tier list."
+  />
+</svelte:head>
+
 <div
   class="relative flex h-screen w-full flex-col overflow-hidden bg-background font-mono text-foreground lg:flex-row"
 >

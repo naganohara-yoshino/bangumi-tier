@@ -8,6 +8,11 @@
 </script>
 
 <svelte:head>
+	<title>Bangumi Tier</title>
+	<meta
+		name="description"
+		content="Create and share your Bangumi anime tier lists."
+	/>
 	<link rel="icon" href="/favicon.ico" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
