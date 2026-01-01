@@ -6,7 +6,7 @@
   import UtilBar from "$lib/components/UtilBar.svelte";
 
   // Global State
-  import { itemLoader } from "$lib/batchLoader.svelte";
+  import { itemLoader } from "$lib/itemBatchLoader.svelte";
   import _ from "lodash";
   import type { ItemData, ItemIdentity } from "$lib/schemas/item";
 
@@ -26,7 +26,7 @@
 
   // SYNC: Watch the store and only append *new* items.
   $effect(() => {
-    let allLoaded = itemLoader.items;
+    let allLoaded = itemLoader.loadedItems;
     for (const item of allLoaded) {
       // If this item hasn't been seen by our UI list yet...
       if (!addedToUi.has(item.id)) {
@@ -37,8 +37,8 @@
   });
 
   const loadMore = () => {
-    itemLoader.kickOff();
-    console.log("loadMore");
+    itemLoader.loadBatch();
+    // console.log("loadMore");
   };
 
   // --- Sidebar State ---
