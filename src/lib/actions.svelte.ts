@@ -6,15 +6,16 @@ import type { components } from "$lib/schemas/bgm-public-api";
 import { DateTime } from "luxon";
 import type { ItemData } from "$lib/schemas/item";
 import { fetchUserCollection } from "./api/bgmFetchers.svelte";
-import { extraInfo } from "./states/variables.svelte";
+import { appState } from "./states/appState.svelte";
 
 type SubjectCollected = components["schemas"]["UserSubjectCollection"];
 
 export async function addIndexAndGoto(index_id: number) {
+  itemLoader.clear();
   const itemIdentities = await fetchIndexById(index_id);
   if (itemIdentities !== undefined) {
     itemLoader.addItems(itemIdentities);
-    extraInfo.total = itemIdentities.length;
+    appState.total = itemIdentities.length;
   }
   goto(resolve("/tier"));
 }
@@ -68,6 +69,7 @@ export async function gotoUserCollection(username: string) {
     isDoneInYear(subj, YEAR),
   );
   const items = collectionYear.map(subjectToItem);
+  itemLoader.clear();
   itemLoader.loadedItems.push(...items);
   goto(resolve("/tier"));
 }

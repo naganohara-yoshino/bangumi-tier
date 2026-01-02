@@ -1,50 +1,112 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
   import ItemList from "$lib/components/ItemList.svelte";
   import TierBar from "$lib/components/TierBar.svelte";
   import UtilBar from "$lib/components/UtilBar.svelte";
-
-  // Global State
   import { itemLoader } from "$lib/states/itemBatchLoader.svelte";
-  import { extraInfo } from "$lib/states/variables.svelte";
-
-  import _ from "lodash";
+  import { appState } from "$lib/states/appState.svelte";
   import { m } from "$lib/paraglide/messages";
   import type { ItemData } from "$lib/schemas/item";
+  import { afterNavigate } from "$app/navigation";
+  import { persistedTierData } from "$lib/states/persisted.svelte";
 
-  // --- Tier State ---
-  let tierLevel1 = $state([]);
-  let tierLevel2 = $state([]);
-  let tierLevel3 = $state([]);
-  let tierLevel4 = $state([]);
-  let tierLevel5 = $state([]);
+  // --- UI States ---
 
-  // --- Inventory State ---
-  // We keep a local state for the UI so dndzone can mutate it temporarily during drags.
-  let tierItems = $state<ItemData[]>([]);
-  // Track IDs that have been added to the UI list to prevent duplicates
-  // and to ensure items dragged OUT of the list don't bounce back in.
-  const addedToUi = $state(new Set<string>());
+  // 1. Tier State
+  let tierLevel1 = $state<ItemData[]>([]);
+  let tierLevel2 = $state<ItemData[]>([]);
+  let tierLevel3 = $state<ItemData[]>([]);
+  let tierLevel4 = $state<ItemData[]>([]);
+  let tierLevel5 = $state<ItemData[]>([]);
 
-  // SYNC: Watch the store and only append *new* items.
-  $effect(() => {
-    let allLoaded = itemLoader.loadedItems;
-    for (const item of allLoaded) {
-      // If this item hasn't been seen by our UI list yet...
+  // 2. Collection State
+  let collectionTierItems = $state<ItemData[]>([]);
+
+  // 3. State that tracks added items to avoid duplicates
+  let addedToUi = $state(new Set<string>());
+
+  // 4. Flags
+  let shouldSaveToPersistedData = $state(false);
+  let shouldSyncToUi = $state(false);
+
+  // --- Logic Functions ---
+  function initializeState(fromRouteId: any) {
+    const isRoot = fromRouteId === "/";
+    const isIndexId = fromRouteId === "/index/[id]";
+
+    const shouldLoadPersistedData = !(isRoot || isIndexId);
+
+    if (shouldLoadPersistedData) {
+      loadFromPersistedData();
+      addedToUi.clear();
+      for (const item of collectionTierItems) {
+        addedToUi.add(item.id);
+      }
+
+      // We do not need to sync new items immediately if we just loaded old state
+      // unless you want mixed behavior.
+      shouldSyncToUi = true;
+    } else {
+      // Fresh start
+      tierLevel1 = [];
+      tierLevel2 = [];
+      tierLevel3 = [];
+      tierLevel4 = [];
+      tierLevel5 = [];
+      collectionTierItems = [];
+      addedToUi.clear();
+      shouldSyncToUi = true;
+    }
+
+    // Allow saving after initialization is done
+    shouldSaveToPersistedData = true;
+  }
+
+  function saveToPersistedData() {
+    $persistedTierData.tierLevel1 = [...tierLevel1];
+    $persistedTierData.tierLevel2 = [...tierLevel2];
+    $persistedTierData.tierLevel3 = [...tierLevel3];
+    $persistedTierData.tierLevel4 = [...tierLevel4];
+    $persistedTierData.tierLevel5 = [...tierLevel5];
+    $persistedTierData.collectionTierItems = [...collectionTierItems];
+  }
+
+  function loadFromPersistedData() {
+    tierLevel1 = [...$persistedTierData.tierLevel1];
+    tierLevel2 = [...$persistedTierData.tierLevel2];
+    tierLevel3 = [...$persistedTierData.tierLevel3];
+    tierLevel4 = [...$persistedTierData.tierLevel4];
+    tierLevel5 = [...$persistedTierData.tierLevel5];
+    collectionTierItems = [...$persistedTierData.collectionTierItems];
+  }
+
+  function oneWaySyncFromLoader() {
+    const allLoadedItems = itemLoader.loadedItems;
+    for (const item of allLoadedItems) {
       if (!addedToUi.has(item.id)) {
-        tierItems.push(item);
+        collectionTierItems.push(item);
         addedToUi.add(item.id);
       }
     }
+  }
+
+  // --- Wiring up correctly ---
+  afterNavigate(({ from }) => {
+    initializeState(from?.route.id);
   });
 
-  const loadMore = () => {
-    itemLoader.loadBatch();
-    // console.log("loadMore");
-  };
+  $effect(() => {
+    if (shouldSaveToPersistedData) {
+      saveToPersistedData();
+    }
+  });
 
-  // --- Sidebar State ---
+  $effect(() => {
+    if (shouldSyncToUi) {
+      oneWaySyncFromLoader();
+    }
+  });
+
+  // --- Sidebar ---
   let isSidebarOpen = $state(true);
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
@@ -142,10 +204,10 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
-        total={extraInfo.total}
-        bind:items={tierItems}
+        total={appState.total}
+        bind:items={collectionTierItems}
         isGoingToLoad={!itemLoader.isDone}
-        {loadMore}
+        loadMore={() => itemLoader.loadBatch()}
       />
     </div>
   </aside>
