@@ -17,7 +17,7 @@
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.10",
-        "@iconify/json": "^2.2.423",
+        "@iconify/json": "^2.2.424",
         "@iconify/tailwind4": "^1.2.0",
         "@inlang/paraglide-js": "^2.6.0",
         "@internationalized/date": "^3.10.0",
@@ -138,7 +138,7 @@
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
 
-    "@iconify/json": ["@iconify/json@2.2.423", "", { "dependencies": { "@iconify/types": "*", "pathe": "^2.0.3" } }, "sha512-BNXF6fS6Vfh55jLT8p7H/JAq56U5Kww2jlWnxXbJ+uwsVMahtvy3t260jliswqwuDK22hEAdg+/5lZ/iRqkJRg=="],
+    "@iconify/json": ["@iconify/json@2.2.424", "", { "dependencies": { "@iconify/types": "*", "pathe": "^2.0.3" } }, "sha512-Lxx8ad2DgyTGV88ec0mlaJ+OSjr0SyU0j8Awfbxl9JrxxHmBEFQJ+jywhztWAhLnaMUG3+G1htNJYzEsoAsNMQ=="],
 
     "@iconify/tailwind4": ["@iconify/tailwind4@1.2.0", "", { "dependencies": { "@iconify/tools": "^5.0.0", "@iconify/types": "^2.0.0", "@iconify/utils": "^3.1.0" }, "peerDependencies": { "tailwindcss": ">= 4.0.0" } }, "sha512-+t7XqfojOB0zzZdd8gV7IQZGq1AaIHTlsxMVzagxYR0hAlJCLUD63o3iSlNKRMH3ZR7gZ8y5c9dJ7J431avRbA=="],
 
