@@ -1,44 +1,47 @@
-# Bangumi Tier
+# 📊 Bangumi Tier
 
-A modern, drag-and-drop tier list maker for your Bangumi collection. Create your own personal rankings with a sleek, responsive interface.
+[English](README.md) | [简体中文](docs/README.zh-CN.md) | [日本語](docs/README.ja.md)
 
-## Features
+✨ A modern, drag-and-drop tier list maker for your [Bangumi](https://bgm.tv) collection. Create your own personal rankings with a sleek, responsive interface.
 
-- **Drag & Drop Interface**: Intuitive drag-and-drop system powered by `svelte-dnd-action` to rank your items easily.
-- **Bangumi Integration**: importation of items from Bangumi.
-- **Responsive & Modern UI**: Built with Svelte 5 and Tailwind CSS 4, featuring a unique brutalist design aesthetic adaptable to light and dark modes.
-- **Multilingual**: Native internationalization support using Inlang Paraglide.
-- **Tier Management**: multiple tiers (S, A, B, C, D) with customizable layouts.
+## 🚀 Features
 
-## Tech Stack
+- **🖱️ Drag & Drop Interface**: Intuitive drag-and-drop system powered by `svelte-dnd-action` to rank your items easily.
+- **🔄 Bangumi Integration**: Seamless importation of your anime/manga collection from Bangumi.
+- **🎨 Responsive & Modern UI**: Built with Svelte 5 and Tailwind CSS 4, featuring a unique brutalist design aesthetic.
+- **🌗 Dark/Light Mode**: Fully adaptable interface for any time of day.
+- **🌐 Multilingual**: Native internationalization support using Inlang Paraglide.
+- **🔢 Tier Management**: Flexible tier system (S, A, B, C, D) with customizable layouts.
 
-- **Framework**: [SvelteKit](https://kit.svelte.dev/) (Svelte 5)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/), [Shadcn Svelte](https://www.shadcn-svelte.com/)
-- **Drag & Drop**: [svelte-dnd-action](https://github.com/isaacHagoel/svelte-dnd-action)
+## 🛠️ Tech Stack
 
-## Development
+- **⚡ Framework**: [SvelteKit](https://kit.svelte.dev/) (Svelte 5)
+- **💅 Styling**: [Tailwind CSS 4](https://tailwindcss.com/) & [Shadcn Svelte](https://www.shadcn-svelte.com/)
+- **🖐️ Drag & Drop**: [svelte-dnd-action](https://github.com/isaacHagoel/svelte-dnd-action)
+
+## 💻 Development
 
 This project uses [Bun](https://bun.sh) as the package manager.
 
-1. **Install dependencies**
+1. **📥 Install dependencies**
 
    ```bash
    bun install
    ```
 
-2. **Start development server**
+2. **▶️ Start development server**
 
    ```bash
    bun run dev
    ```
 
-3. **Build for production**
+3. **🏗️ Build for production**
 
    ```bash
    bun run build
    ```
 
-## License
+## 📄 License
 
 This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) or any later version.
 
