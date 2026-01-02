@@ -57,6 +57,7 @@
     "mode-watcher": "^1.1.0",
     "openapi-fetch": "^0.15.0",
     "p-limit": "^7.2.0",
-    "svelte-dnd-action": "^0.9.69"
+    "svelte-dnd-action": "^0.9.69",
+    "svelte-persisted-store": "^0.12.0"
   }
 }
