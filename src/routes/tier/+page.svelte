@@ -25,6 +25,8 @@
   let addedToUi = $state(new Set<string>());
 
   // 4. Flags
+  // These flags act as one-time gates: turned on after route-based init
+  // This lets effects run ongoing without re-triggering init logic
   let shouldSaveToPersistedData = $state(false);
   let shouldSyncToUi = $state(false);
 
