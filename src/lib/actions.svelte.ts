@@ -16,6 +16,7 @@ export async function addIndexAndGoto(index_id: number) {
     itemLoader.addItems(itemIdentities);
   }
   goto(resolve("/tier"));
+  itemLoader.loadBatch(100);
 }
 const YEAR = 2025;
 
