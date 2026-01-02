@@ -17,7 +17,6 @@
     title?: string;
     isGoingToLoad: boolean;
     loadMore: () => void | Promise<void>;
-    total?: number;
   } = $props();
 
   const flipDurationMs = 300;
@@ -46,7 +45,7 @@
     <div class="flex items-center gap-2">
       <div class="h-2 w-2 rounded-full bg-accent animate-pulse"></div>
       <span class="font-mono text-xs font-bold opacity-80">
-        {#if total !== undefined}{total}{:else}{items.length}{/if}
+        {items.length}
         IN
       </span>
     </div>

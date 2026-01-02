@@ -3,7 +3,6 @@
   import TierBar from "$lib/components/TierBar.svelte";
   import UtilBar from "$lib/components/UtilBar.svelte";
   import { itemLoader } from "$lib/states/itemBatchLoader.svelte";
-  import { appState } from "$lib/states/appState.svelte";
   import { m } from "$lib/paraglide/messages";
   import type { ItemData } from "$lib/schemas/item";
   import { afterNavigate } from "$app/navigation";
@@ -206,7 +205,6 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
-        total={appState.total}
         bind:items={collectionTierItems}
         isGoingToLoad={!itemLoader.isDone}
         loadMore={() => itemLoader.loadBatch()}
