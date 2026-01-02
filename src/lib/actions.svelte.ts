@@ -1,11 +1,12 @@
 import { goto } from "$app/navigation";
 import { resolve } from "$app/paths";
 import { fetchIndexById } from "$lib/api/indexFetchers.svelte";
-import { itemLoader } from "$lib/itemBatchLoader.svelte";
+import { itemLoader } from "$lib/states/itemBatchLoader.svelte";
 import type { components } from "$lib/schemas/bgm-public-api";
 import { DateTime } from "luxon";
 import type { ItemData } from "$lib/schemas/item";
 import { fetchUserCollection } from "./api/bgmFetchers.svelte";
+import { extraInfo } from "./states/variables.svelte";
 
 type SubjectCollected = components["schemas"]["UserSubjectCollection"];
 
@@ -13,7 +14,7 @@ export async function addIndexAndGoto(index_id: number) {
   const itemIdentities = await fetchIndexById(index_id);
   if (itemIdentities !== undefined) {
     itemLoader.addItems(itemIdentities);
-    // await itemLoader.loadBatch();
+    extraInfo.total = itemIdentities.length;
   }
   goto(resolve("/tier"));
 }

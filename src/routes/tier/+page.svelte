@@ -6,10 +6,12 @@
   import UtilBar from "$lib/components/UtilBar.svelte";
 
   // Global State
-  import { itemLoader } from "$lib/itemBatchLoader.svelte";
+  import { itemLoader } from "$lib/states/itemBatchLoader.svelte";
+  import { extraInfo } from "$lib/states/variables.svelte";
+
   import _ from "lodash";
-  import type { ItemData, ItemIdentity } from "$lib/schemas/item";
   import { m } from "$lib/paraglide/messages";
+  import type { ItemData } from "$lib/schemas/item";
 
   // --- Tier State ---
   let tierLevel1 = $state([]);
@@ -140,6 +142,7 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
+        total={extraInfo.total}
         bind:items={tierItems}
         isGoingToLoad={!itemLoader.isDone}
         {loadMore}
