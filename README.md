@@ -1,38 +1,62 @@
-# sv
+# Bangumi Tier
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern, drag-and-drop tier list maker for your Bangumi collection. Create your own personal rankings with a sleek, responsive interface.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Drag & Drop Interface**: Intuitive drag-and-drop system powered by `svelte-dnd-action` to rank your items easily.
+- **Bangumi Integration**: importation of items from Bangumi.
+- **Responsive & Modern UI**: Built with Svelte 5 and Tailwind CSS 4, featuring a unique brutalist design aesthetic adaptable to light and dark modes.
+- **Multilingual**: Native internationalization support using Inlang Paraglide.
+- **Tier Management**: multiple tiers (S, A, B, C, D) with customizable layouts.
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **Framework**: [SvelteKit](https://kit.svelte.dev/) (Svelte 5)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/), [Shadcn Svelte](https://www.shadcn-svelte.com/)
+- **Drag & Drop**: [svelte-dnd-action](https://github.com/isaacHagoel/svelte-dnd-action)
 
-## Developing
+## Development
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+This project uses [Bun](https://bun.sh) as the package manager.
 
-```sh
-npm run dev
+1. **Install dependencies**
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+   ```bash
+   bun install
+   ```
 
-## Building
+2. **Start development server**
 
-To create a production version of your app:
+   ```bash
+   bun run dev
+   ```
 
-```sh
-npm run build
-```
+3. **Build for production**
 
-You can preview the production build with `npm run preview`.
+   ```bash
+   bun run build
+   ```
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## License
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) or any later version.
+
+>    Bangumi Tier
+>
+>    Copyright (C) 2026  Yoshino Naganohara
+>
+>    This program is free software: you can redistribute it and/or modify
+>    it under the terms of the GNU Affero General Public License as
+>    published by the Free Software Foundation, either version 3 of the
+>    License, or (at your option) any later version.
+>
+>    This program is distributed in the hope that it will be useful,
+>    but WITHOUT ANY WARRANTY; without even the implied warranty of
+>    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>    GNU Affero General Public License for more details.
+>
+>    You should have received a copy of the GNU Affero General Public License
+>    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+---
