@@ -46,7 +46,7 @@
       <div class="h-2 w-2 rounded-full bg-accent animate-pulse"></div>
       <span class="font-mono text-xs font-bold opacity-80">
         {items.length}
-        IN
+        {m.inside()}
       </span>
     </div>
   </div>
