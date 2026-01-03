@@ -205,6 +205,7 @@
   >
     <div class="h-full w-full min-w-[300px]">
       <ItemList
+        title={m.cards()}
         bind:items={collectionTierItems}
         isGoingToLoad={!itemLoader.isDone}
         loadMore={() => itemLoader.loadBatch()}
