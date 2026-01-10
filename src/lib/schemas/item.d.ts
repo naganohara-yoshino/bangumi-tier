@@ -8,5 +8,6 @@ export type ItemIdentity = {
 export type ItemData = ItemIdentity & {
   id: string; // unique , for svelte dnd actions
   name: string;
+  name_cn?: string;
   image?: string;
 };

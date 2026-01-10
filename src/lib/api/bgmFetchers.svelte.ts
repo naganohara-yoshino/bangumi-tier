@@ -15,7 +15,8 @@ export async function fetchSubject(
     bgm_id: subject_id,
     id: `subject:${subject_id}`,
     category: "subject",
-    name: data.name_cn || data.name || "Unknown",
+    name: data.name || "Unknown",
+    name_cn: data.name_cn,
     image: data.images?.small,
   };
 }
