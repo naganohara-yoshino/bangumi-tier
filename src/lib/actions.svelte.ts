@@ -24,7 +24,7 @@ const ANIME_STUDIOS = 86940;
 
 const ANIME_DIRECTORS = 42599;
 
-const SEASONAL_ANIME = 85308; // 2026 1
+const SEASONAL_ANIME = 90017; // 2026 1
 
 export async function gotoStudio() {
   await addIndexAndGoto(ANIME_STUDIOS);
