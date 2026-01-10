@@ -1,6 +1,13 @@
 <script lang="ts">
-  let { name, image } = $props();
-  image = image ?? "https://lain.bgm.tv/img/no_icon_subject.png";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import type { ItemData } from "$lib/schemas/item";
+
+  let { item }: { item: ItemData } = $props();
+  let name = $derived(item.name);
+  if (getLocale() === "zh" && item.name_cn !== undefined) {
+    name = item.name_cn;
+  }
+  let image = item.image ?? "https://lain.bgm.tv/img/no_icon_subject.png";
 </script>
 
 <div

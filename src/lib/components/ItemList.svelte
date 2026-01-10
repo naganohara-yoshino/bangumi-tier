@@ -107,7 +107,7 @@
     >
       {#each items as item (item.id)}
         <div animate:flip={{ duration: flipDurationMs }}>
-          <ItemCard name={item.name} image={item.image} />
+          <ItemCard {item} />
         </div>
       {/each}
     </section>
