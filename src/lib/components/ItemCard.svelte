@@ -3,7 +3,7 @@
   import type { ItemData } from "$lib/schemas/item";
 
   let { item }: { item: ItemData } = $props();
-  let name = $derived(item.name);
+  let name = item.name;
   if (getLocale() === "zh" && item.name_cn !== undefined) {
     name = item.name_cn;
   }
