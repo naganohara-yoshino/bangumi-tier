@@ -147,7 +147,7 @@
           id="index-{id}"
           type="text"
           class="neo-input"
-          placeholder="86319"
+          placeholder="44847"
           bind:value={initialIndexId}
         />
         <Button size="icon" class="neo-btn-icon-action" type="submit">

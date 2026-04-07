@@ -18,13 +18,13 @@ export async function addIndexAndGoto(index_id: number) {
   goto(resolve("/tier"));
   itemLoader.loadBatch(100);
 }
-const YEAR = 2025;
+const YEAR = 2026;
 
 const ANIME_STUDIOS = 86940;
 
 const ANIME_DIRECTORS = 42599;
 
-const SEASONAL_ANIME = 90017; // 2026 1
+const SEASONAL_ANIME = 96799; // 2026 4
 
 export async function gotoStudio() {
   await addIndexAndGoto(ANIME_STUDIOS);
