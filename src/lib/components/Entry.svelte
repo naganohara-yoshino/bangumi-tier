@@ -8,7 +8,7 @@
   import type { HTMLAttributes } from "svelte/elements";
   import {
     addIndexAndGoto,
-    gotoDerector,
+    gotoDirector,
     gotoStudio,
     gotoSeasonal,
     gotoUserCollection,
@@ -69,7 +69,7 @@
           type="button"
           onclick={() => {
             isDirectorLoading = true;
-            gotoDerector();
+            gotoDirector();
           }}
         >
           <span class="relative">
